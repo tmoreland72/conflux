@@ -1,8 +1,11 @@
 const child = require('child_process')
 const fs = require('fs')
 
-const CHANGELOG = '../CHANGELOG.md'
-const PACKAGE = '../package.json'
+const process = require('process')
+process.chdir('/c/code/34fame/q-conflux')
+
+const CHANGELOG = './CHANGELOG.md'
+const PACKAGE = './package.json'
 const REPO = 'https://github.com/34fame/conflux'
 
 const currentPackageJson = fs.readFileSync(PACKAGE, 'utf-8')

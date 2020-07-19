@@ -5,6 +5,17 @@ const CHANGELOG = '../CHANGELOG.md'
 const PACKAGE = '../package.json'
 const REPO = 'https://github.com/34fame/conflux'
 
+const currentPackageJson = fs.readFileSync(PACKAGE, 'utf-8')
+const packageObj = JSON.parse(currentPackageJson)
+const currentVersion = Number(packageObj.version)
+const newVersion = currentVersion + 1
+packageObj.version = String(newVersion)
+fs.writeFileSync(PACKAGE, JSON.stringify(packageObj, null, 2))
+child.execSync('git add .')
+child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
+
+const currentChangelog = fs.readFileSync(CHANGELOG, 'utf-8')
+let newChangelog = `# Version ${newVersion} (${new Date().toISOString().split('T')[0]})\n\n`
 const latestTag = child.execSync('git describe --long').toString('utf-8').split('-')[0]
 const output = child
    .execSync(`git log ${latestTag}..HEAD --format=%B%H----DELIMITER----`)
@@ -14,25 +25,9 @@ const commitsArray = output
    .split('----DELIMITER----\n')
    .map(commit => {
       const [message, sha] = commit.split('\n')
-
       return { sha, message }
    })
    .filter(commit => Boolean(commit.sha))
-
-const currentChangelog = fs.readFileSync(CHANGELOG, 'utf-8')
-const currentPackageJson = fs.readFileSync(PACKAGE, 'utf-8')
-const packageJson = JSON.parse(currentPackageJson)
-const currentVersion = Number(packageJson.version)
-const newVersion = currentVersion + 1
-packageJson.version = String(newVersion)
-let newChangelog = `# Version ${newVersion} (${
-   new Date().toISOString().split('T')[0]
-})\n\n`
-
-// create a new commit
-child.execSync('git add .')
-child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
-
 
 const features = []
 const chores = []
@@ -81,8 +76,6 @@ if (chores.length) {
 // prepend the newChangelog to the current one
 fs.writeFileSync(CHANGELOG, `${newChangelog}${currentChangelog}`)
 
-// update package.json
-fs.writeFileSync(PACKAGE, JSON.stringify(packageJson, null, 2))
-
 // tag the commit
 child.execSync(`git tag -a -m "Tag for version ${newVersion}" version${newVersion}`)
+child.execSync(`git push --tags`)

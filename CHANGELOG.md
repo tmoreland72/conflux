@@ -1,3 +1,9 @@
+# Version 14 (2020-07-19)
+
+## Chores
+*  Bump to version 14 ([39909f](https://github.com/34fame/conflux/commit/39909fdf54e9732ef603cb2141d23b57e52978e6))
+*  fixed commit path in changelog.js ([dc977e](https://github.com/34fame/conflux/commit/dc977e8dc528452696595025c1ba4491e266843e))
+
 # Version 13 (2020-07-19)
 
 ## Features

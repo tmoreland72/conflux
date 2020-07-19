@@ -77,5 +77,5 @@ if (chores.length) {
 fs.writeFileSync(CHANGELOG, `${newChangelog}${currentChangelog}`)
 
 // tag the commit
-child.execSync(`git tag -a -m "Tag for version ${newVersion}" version${newVersion}`)
-child.execSync(`git push --tags`)
+child.execSync(`git tag -a -m "Tagged for version ${newVersion}" version${newVersion}`)
+child.execSync(`git push --follow-tags`)

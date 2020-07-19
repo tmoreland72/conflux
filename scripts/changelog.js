@@ -29,6 +29,11 @@ let newChangelog = `# Version ${newVersion} (${
    new Date().toISOString().split('T')[0]
 })\n\n`
 
+// create a new commit
+child.execSync('git add .')
+child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
+
+
 const features = []
 const chores = []
 const fixes = []
@@ -78,10 +83,6 @@ fs.writeFileSync(CHANGELOG, `${newChangelog}${currentChangelog}`)
 
 // update package.json
 fs.writeFileSync(PACKAGE, JSON.stringify(packageJson, null, 2))
-
-// create a new commit
-child.execSync('git add .')
-child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
 
 // tag the commit
 child.execSync(`git tag -a -m "Tag for version ${newVersion}" version${newVersion}`)

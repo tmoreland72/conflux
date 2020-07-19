@@ -40,13 +40,13 @@ commitsArray.forEach(commit => {
    let messageParts = commit.message.split(':')
    switch (messageParts[0]) {
       case 'chore':
-         chores.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/${commit.sha}))\n`)
+         chores.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/commit/${commit.sha}))\n`)
          break
       case 'feat':
-         features.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/${commit.sha}))\n`)
+         features.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/commit/${commit.sha}))\n`)
          break
       case 'fix':
-         fixes.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/${commit.sha}))\n`)
+         fixes.push(`* ${messageParts[1]} ([${commit.sha.substring(0, 6)}](${REPO}/commit/${commit.sha}))\n`)
          break
    }
 

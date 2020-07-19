@@ -77,16 +77,13 @@ Conflux is __still in development__.  Currently, it is a pet project because I n
 - Star/Unstar pages
 - Edit pages (markdown)
 - Delete pages
+- Data stored in Local Storage
 
 ### Built With
 
 * [Vue.js](https://vuejs.org)
 * [Quasar Framework](https://quasar.dev)
 * [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
-
-### Backend
-
-Right now the focus is more on building the UI.  Spaces and pages are stored in the browser Local Storage for now.
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -161,8 +158,8 @@ Project Link: [https://github.com/34fame/conflux](https://github.com/34fame/conf
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [Razvan Stoenescu](https://github.com/rstoenescu) - Quasar Framework Author
-* [Jeff Galbraith](https://github.com/hawkeye64) - Quasar Framework Developer
+* [Razvan Stoenescu](https://github.com/sponsors/rstoenescu) - Quasar Framework Author
+* [Jeff Galbraith](https://github.com/sponsors/hawkeye64) - Quasar Framework Developer
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

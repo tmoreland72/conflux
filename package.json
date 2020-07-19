@@ -1,6 +1,6 @@
 {
   "name": "q-conflux",
-  "version": "10",
+  "version": "11",
   "description": "Confluence clone using Vue.js and Quasar Framework",
   "productName": "Conflux",
   "author": "Troy Moreland <49797484+34fame@users.noreply.github.com>",

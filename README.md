@@ -79,9 +79,8 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-Prerequisites for running this project locally.
-* Node.js
-* Quasar Framework
+* [Node.js](https://nodejs.org)
+* [Quasar Framework](https://quasar.dev)
 ```sh
 npm install quasar -g
 ```

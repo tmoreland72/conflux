@@ -60,10 +60,20 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo`, `twitter_handle`, `email`
+Conflux is __still in development__.  Currently, it is a pet project because I needed a place to document my
+ projects, and I didn't want to pay a subscription fee.  So far it has been a great learning experience.
 
+[![First Glance Demo](https://i9.ytimg.com/vi/_OBhCYtlMiA/mq3.jpg)](https://www.youtube.com/watch?v=_OBhCYtlMiA)]
+
+### What Works
+
+- Add spaces
+- Star/unstar spaces
+- Edit space overview page (markdown)
+- Add pages
+- Star/Unstar pages
+- Edit pages (markdown)
+- Delete pages
 
 ### Built With
 
@@ -71,6 +81,9 @@ Here's a blank template to get started:
 * [Quasar Framework](https://quasar.dev)
 * [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
 
+### Backend
+
+Right now the focus is more on building the UI.  Spaces and pages are stored in the browser Local Storage for now.
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -104,27 +117,23 @@ yarn
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
+Usage examples will be provided later in the development process.
 
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/34fame/conflux/issues) for a list of proposed features (and known issues).
 
-
-
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any
+ contributions you make are **greatly appreciated**.  Utilize [Conventional Commits](https://www.conventionalcommits
+ .org/en/v1.0.0/) when creating commit messages.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 

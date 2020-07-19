@@ -10,6 +10,7 @@
                   autogrow
                   borderless
                   filled
+                  style="font-family: dm,Roboto,monospace;"
                   v-model="content"
                />
             </div>

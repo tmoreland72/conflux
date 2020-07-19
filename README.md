@@ -69,6 +69,7 @@ Here's a blank template to get started:
 
 * [Vue.js](https://vuejs.org)
 * [Quasar Framework](https://quasar.dev)
+* [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
 
 
 <!-- GETTING STARTED -->
@@ -149,17 +150,12 @@ Project Link: [https://github.com/34fame/conflux](https://github.com/34fame/conf
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
-
-
-
-
+* [Razvan Stoenescu](https://github.com/rstoenescu) - Quasar Framework Author
+* [Jeff Galbraith](https://github.com/hawkeye64) - Quasar Framework Developer
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/34fame/conflux
 [contributors-url]: https://github.com/34fame/conflux/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/34fame/conflux
 [forks-url]: https://github.com/34fame/conflux/network/members

@@ -62,9 +62,11 @@
 
 Conflux is __still in development__.  Currently, it is a pet project because I needed a place to document my
  projects, and I didn't want to pay a subscription fee.  So far it has been a great learning experience.
+ 
+ 
+### First Glance Demo
 
-[![First Glance Demo](https://i9.ytimg.com/vi/_OBhCYtlMiA/mq3.jpg?sqp=CJjR0vgF&rs=AOn4CLAH77GNZ-E4YupeReXef_g3vLId4Q
-)](https://www.youtube.com/watch?v=_OBhCYtlMiA "Watch demo on YouTube")
+[![Conflux](http://img.youtube.com/vi/_OBhCYtlMiA/0.jpg)](http://www.youtube.com/watch?v=_OBhCYtlMiA "Conflux - First Glance")
 
 ### What Works
 

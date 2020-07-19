@@ -24,7 +24,7 @@ const currentPackageJson = fs.readFileSync(PACKAGE, 'utf-8')
 const packageJson = JSON.parse(currentPackageJson)
 const currentVersion = Number(packageJson.version)
 const newVersion = currentVersion + 1
-packageJson.version = newVersion
+packageJson.version = String(newVersion)
 let newChangelog = `# Version ${newVersion} (${
    new Date().toISOString().split('T')[0]
 })\n\n`

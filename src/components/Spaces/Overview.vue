@@ -6,12 +6,20 @@
          <template v-if="editMode">
             <div class="q-pa-lg full-width">
                <q-input
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  spellcheck="false"
                   autofocus
                   autogrow
                   borderless
                   filled
                   style="font-family: dm,Roboto,monospace;"
                   v-model="content"
+                  @keydown.ctrl.s.exact.prevent="() => {}"
+                  @keydown.shift.tab.exact.prevent="() => {}"
+                  @keydown.tab.exact.prevent="() => {}"
+                  @keydown="(e) => mxOnKey(e)"
                />
             </div>
          </template>
@@ -29,6 +37,8 @@
 import { mapActions } from 'vuex'
 import { Notify } from 'quasar'
 
+import mxKeyActions from 'src/mixins/mxKeyActions'
+
 export default {
    props: {
       space: {
@@ -44,12 +54,14 @@ export default {
       }
    },
 
+   mixins: [mxKeyActions],
+
    methods: {
       ...mapActions(['spaces/updateSpace']),
 
       async onSave() {
          let space = {
-            id: this.space.id,
+            ...this.space,
             overview: this.content
          }
          await this['spaces/updateSpace'](space)

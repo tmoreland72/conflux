@@ -119,7 +119,6 @@ export default {
          formData.type = this.template.type
          await this.addPage(formData)
          .then(result => {
-            console.log("result", result)
             Notify.create('Page added')
             this.$router.push({ name: 'page', params: { spaceId, pageId: result.id } })
          })
@@ -141,7 +140,6 @@ export default {
       },
 
       onDialogHide() {
-         console.log("onDialogHide")
          this.$emit('hide')
       },
 

@@ -10,12 +10,20 @@
          <template v-if="editMode">
             <div class="q-pa-lg full-width">
                <q-input
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  spellcheck="false"
                   autofocus
                   autogrow
                   borderless
                   filled
                   style="font-family: dm,Roboto,monospace;"
                   v-model="content"
+                  @keydown.ctrl.s.exact.prevent="() => {}"
+                  @keydown.shift.tab.exact.prevent="() => {}"
+                  @keydown.tab.exact.prevent="() => {}"
+                  @keydown="(e) => mxOnKey(e)"
                />
             </div>
          </template>
@@ -36,6 +44,8 @@
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { Notify } from 'quasar'
 
+import mxKeyActions from 'src/mixins/mxKeyActions'
+
 export default {
    data() {
       return {
@@ -50,6 +60,8 @@ export default {
       ...mapState('spaces', ['spaces']),
       ...mapGetters(['pages/page']),
    },
+
+   mixins: [ mxKeyActions ],
 
    methods: {
       ...mapActions([
@@ -66,8 +78,7 @@ export default {
 
       async onSave() {
          let page = {
-            id: this.$route.params.pageId,
-            spaceId: this.$route.params.spaceId,
+            ...this.page,
             content: this.content
          }
          await this['pages/updatePage'](page)
@@ -97,7 +108,8 @@ export default {
                Notify.create('Delete failed')
                return false
             })
-      }
+      },
+
    },
 
    watch: {
@@ -112,10 +124,6 @@ export default {
             this.content = ''
          }
       },
-
-      page: function(value) {
-         console.log("page", value)
-      }
    },
 
    components: {

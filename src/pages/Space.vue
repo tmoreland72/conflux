@@ -14,6 +14,7 @@
                      </q-item-section>
                   </q-item>
 
+                  <!-- Space Menu -->
                   <q-item
                      :active="menuSelected === index"
                      active-class="text-bold text-primary"
@@ -33,6 +34,7 @@
                      </q-item-section>
                   </q-item>
 
+                  <!-- Page Tree -->
                   <div class="q-mt-lg">
                      <q-tree
                         default-expand-all
@@ -50,13 +52,7 @@
 
          <!-- Page -->
          <template v-slot:after>
-            <template v-if="menuSelected === 0">
-               <space-overview :space="space" :onDelete="() => onDelete()"/>
-            </template>
-
-            <template v-else>
-               <router-view />
-            </template>
+            <router-view />
          </template>
       </q-splitter>
    </q-page>
@@ -106,11 +102,10 @@ export default {
          'pages/page',
          'pages/pageByName',
       ]),
-
    },
 
    methods: {
-      // mixin candidate
+      //TODO mixin candidate
       handleIconColor(s) {
          if (this.space.private) {
             return 'secondary'
@@ -120,7 +115,7 @@ export default {
       },
 
       initData() {
-         this.menuSelected = 0
+         //this.menuSelected = 0
          let spaceId = this.$route.params.spaceId
          this.space = { ...this.spaces[spaceId] }
 
@@ -149,7 +144,6 @@ export default {
 
       onClickMenu(index) {
          this.menuSelected = index
-         this.$router.push(this.menu[index].to)
       },
 
       onDelete() {
@@ -160,6 +154,17 @@ export default {
    watch: {
       '$route': function() {
          this.initData()
+      },
+
+      menuSelected: function(after, before) {
+         let spaceId = this.$route.params.spaceId
+
+         if (typeof after === 'number') {
+            let route = this.menu[after].to
+            this.$router.push(route)
+         } else {
+            this.$router.push({ name: 'page', params: { spaceId, pageId: after } })
+         }
       },
 
       pageSelected: function(after, before) {
@@ -173,7 +178,6 @@ export default {
          let page = this['pages/pageByName'](spaceId, after)
          if (pageId !== page.id) {
             this.menuSelected = page.id
-            this.$router.push({ name: 'page', params: { spaceId, pageId: page.id } })
          }
       },
    },

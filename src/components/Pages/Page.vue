@@ -121,7 +121,6 @@ export default {
       },
 
       async onSave() {
-         let spaceId = this.$route.params.spaceId
          let page = {
             ...this.page,
             name: this.pageName,

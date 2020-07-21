@@ -39,34 +39,33 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { Notify } from 'quasar'
 
 import mxKeyActions from 'src/mixins/mxKeyActions'
 
 export default {
-   props: {
-      space: {
-         type: Object,
-         required: true,
-      },
-      onDelete: {
-         type: Function,
-         required: true,
-      }
-   },
-
    data() {
       return {
          editMode: false,
          content: '',
+         space: {},
       }
+   },
+
+   computed: {
+      ...mapState('spaces', ['spaces']),
    },
 
    mixins: [mxKeyActions],
 
    methods: {
       ...mapActions(['spaces/updateSpace']),
+
+      initData() {
+         let spaceId = this.$route.params.spaceId
+         this.space = this.spaces[spaceId]
+      },
 
       async onSave() {
          let space = {
@@ -84,6 +83,10 @@ export default {
                Notify.create('Update failed')
                return false
             })
+      },
+
+      onDelete() {
+         Notify.create('Coming soon...')
       }
    },
 
@@ -99,6 +102,10 @@ export default {
 
    components: {
       OverviewHeader: require("./Header.vue").default,
+   },
+
+   beforeMount() {
+      this.initData()
    }
 }
 </script>

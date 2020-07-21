@@ -13,10 +13,14 @@ const routes = [
       },
 
       {
-        name: 'space',
         path: 'spaces/:spaceId',
         component: () => import('pages/Space.vue'),
         children: [
+          {
+            name: 'space',
+            path: 'overview',
+            component: () => import('components/Spaces/Overview.vue')
+          },
           {
             name: 'space-settings',
             path: 'settings',
@@ -26,12 +30,13 @@ const routes = [
             name: 'page',
             path: 'page/:pageId',
             component: () => import('components/Pages/Page.vue')
-          }
+          },
         ]
       },
 
       { name: 'createSpace', path: '/create/space', component: () => import('components/Spaces/Creation/Dialog.vue') },
       { name: 'createPage', path: '/create/page', component: () => import('components/Pages/Creation/Dialog.vue') },
+
     ]
   },
 

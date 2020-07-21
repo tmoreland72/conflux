@@ -1,6 +1,6 @@
 <template>
    <div class="row justify-between items-center text-grey-9">
-      <div class="text-h5">{{space.name}}</div>
+      <div class="q-pl-lg text-h5">{{space.name}}</div>
 
       <div class="row q-gutter-md">
          <template v-if="editMode">

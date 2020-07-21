@@ -1,11 +1,9 @@
 <template>
    <div class="row justify-between items-center text-grey-9">
-      <div class="q-gutter-sm">
-         <q-breadcrumbs>
-            <q-breadcrumbs-el label="Home" :to="{ name: 'home' }" />
-            <q-breadcrumbs-el :label="space.name" :to="{ name: 'space', params: { spaceId: space.id } }" />
-         </q-breadcrumbs>
+      <div v-if="editMode">
+         <q-input :value="pageName" outlined label="Name" @input="(value) => onInput(value)" />
       </div>
+      <div v-else class="q-pl-lg text-h5">{{pageName}}</div>
 
       <div class="row q-gutter-md">
          <template v-if="editMode">
@@ -30,6 +28,10 @@ import { Notify } from 'quasar'
 
 export default {
    props: {
+      pageName: {
+         type: String,
+         required: true,
+      },
       editMode: {
          type: Boolean,
       },
@@ -112,6 +114,10 @@ export default {
 
       onClickVisibility() {
          Notify.create('Coming soon...')
+      },
+
+      onInput(value) {
+         this.$emit('update:pageName', value)
       }
    },
 

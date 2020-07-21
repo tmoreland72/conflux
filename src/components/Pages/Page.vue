@@ -1,6 +1,7 @@
 <template>
    <div class="q-pa-md">
       <page-header
+         :pageName.sync="pageName"
          :editMode.sync="editMode"
          :onSave="() => onSave()"
          :onDelete="() => onDelete()"
@@ -52,6 +53,7 @@ export default {
          editMode: false,
          content: '',
          page: {},
+         pageName: '',
          space: {}
       }
    },
@@ -77,14 +79,17 @@ export default {
       },
 
       async onSave() {
+         let spaceId = this.$route.params.spaceId
          let page = {
             ...this.page,
+            name: this.pageName,
             content: this.content
          }
          await this['pages/updatePage'](page)
             .then(() => {
                Notify.create('Update successful')
                this.editMode = false
+               this.$router.push({ name: 'space', params: { spaceId }})
                return true
             })
             .catch(err => {
@@ -124,6 +129,10 @@ export default {
             this.content = ''
          }
       },
+
+      page: function(value) {
+         this.pageName = value.name
+      }
    },
 
    components: {

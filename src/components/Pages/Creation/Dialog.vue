@@ -10,18 +10,33 @@
             <q-step
                :name="1"
                title="Select space"
+               icon="content_copy"
                :done="step > 1"
             >
-               <div class="row items-center q-gutter-md">
-                  <div class="text-grey-9">Space</div>
-                  <q-select
-                     color="primary"
-                     emit-value
-                     map-options
-                     :options="options"
-                     outline
-                     v-model="selectedSpace"
-                  />
+               <div class="column q-gutter-md">
+                  <div class="row items-center q-gutter-md">
+                     <div class="text-grey-9">Parent Page</div>
+                     <q-select
+                        color="primary"
+                        emit-value
+                        map-options
+                        :options="parentOptions"
+                        outline
+                        v-model="parentSelected"
+                     />
+                  </div>
+
+                  <div class="row items-center q-gutter-md">
+                     <div class="text-grey-9">Space</div>
+                     <q-select
+                        color="primary"
+                        emit-value
+                        map-options
+                        :options="spaceOptions"
+                        outline
+                        v-model="spaceSelected"
+                     />
+                  </div>
                </div>
 
             </q-step>
@@ -79,15 +94,20 @@ import { Notify } from 'quasar'
 export default {
    data() {
       return {
-         options: [],
-         selectedSpace: null,
+         parentOptions: [],
+         parentSelected: 0,
+         spaceOptions: [],
+         spaceSelected: null,
          step: 1,
          template: {},
       }
    },
 
    computed: {
-      ...mapGetters(['spaces/sorted']),
+      ...mapGetters([
+         'spaces/sorted',
+         'pages/sorted'
+      ]),
 
    },
 
@@ -95,28 +115,42 @@ export default {
       ...mapActions('pages', ['addPage']),
 
       async initData() {
-         let options = []
+         let pageId = this.$route.params.pageId
+         let spaceId = this.$route.params.spaceId
+
+         let pages = [...this['pages/sorted'](spaceId)]
          let spaces = [...this['spaces/sorted']]
+
+         let parentOptions = [{ label: 'TOP', value: 0 }]
+         let spaceOptions =[]
+
+         pages.map(page => {
+            let option = {
+               label: page.name,
+               value: page.id
+            }
+            parentOptions.push(option)
+         })
+         this.parentOptions = parentOptions
+
          spaces.map(space => {
             let option = {
                label: space.name,
                value: space.key
             }
-            options.push(option)
+            spaceOptions.push(option)
          })
-         this.options = options
+         this.spaceOptions = spaceOptions
 
-         if (this.$route.params.spaceId) {
-            this.selectedSpace = this.$route.params.spaceId
-         } else {
-            this.selectedSpace = options[0].value
-         }
+         this.parentSelected = pageId ? pageId : parentOptions[0].value
+         this.spaceSelected = spaceId ? spaceId : spaceOptions[0].value
       },
 
       async onAdd(formData) {
-         let spaceId = this.selectedSpace
+         let spaceId = this.spaceSelected
          formData.spaceId = spaceId
          formData.type = this.template.type
+         formData.parent = this.parentSelected
          await this.addPage(formData)
          .then(result => {
             Notify.create('Page added')

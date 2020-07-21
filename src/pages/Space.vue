@@ -16,7 +16,7 @@
                   </q-item>
 
                   <q-item
-                     :active="selectedMenu === index"
+                     :active="menuSelected === index"
                      active-class="text-bold text-primary"
                      clickable
                      :key="index"
@@ -38,27 +38,22 @@
                      <q-item-label header>Pages</q-item-label>
                   </div>
 
-                  <q-item
-                     :active="selectedMenu === p.id"
-                     active-class="text-bold text-primary"
-                     clickable
-                     :key="p.id"
-                     v-for="p in pages"
-                     v-ripple
-                     @click="() => onClickPage(p.id)"
-                  >
-                     <q-item-section>
-                        <q-item-label>{{ p.name }}</q-item-label>
-                     </q-item-section>
-                  </q-item>
-
+                  <q-tree
+                     default-expand-all
+                     no-nodes-label="No pages found"
+                     no-results-label="No matches found"
+                     :nodes="pageTree"
+                     node-key="label"
+                     selected-color="primary"
+                     :selected.sync="pageSelected"
+                  />
                </q-list>
             </div>
          </template>
 
          <!-- Page -->
          <template v-slot:after>
-            <template v-if="selectedMenu === 0">
+            <template v-if="menuSelected === 0">
                <space-overview :space="space" />
             </template>
 
@@ -72,6 +67,8 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+
+import { arrayToTree } from 'src/helpers/sort'
 
 export default {
    data() {
@@ -94,10 +91,12 @@ export default {
                }
             },
          ],
-         selectedMenu: 0,
+         menuSelected: 0,
          split: 20,
          space: {},
          pages: [],
+         pageTree: [],
+         pageSelected: null,
          page: null,
       }
    },
@@ -106,7 +105,8 @@ export default {
       ...mapState('spaces', ['spaces']),
       ...mapGetters([
          'pages/sorted',
-         'pages/page'
+         'pages/page',
+         'pages/pageByName',
       ]),
 
    },
@@ -122,17 +122,27 @@ export default {
       },
 
       initData() {
+         this.menuSelected = 0
          let spaceId = this.$route.params.spaceId
+         this.space = { ...this.spaces[spaceId] }
+
+         let pages = [...this['pages/sorted'](spaceId)]
+         this.pages = pages
+         if (pages.length) {
+            let tree = arrayToTree(pages, 0)
+            this.pageTree = [{ id: 0, label: 'Pages', icon: 'account_tree', selectable: false, children: tree }]
+         } else {
+            this.pageTree = []
+         }
+
          let pageId = this.$route.params.pageId
-         this.space = this.spaces[spaceId]
-         this.pages = this['pages/sorted'](spaceId)
-         this.page = null
-         this.selectedMenu = 0
          if (pageId) {
-            this.selectedMenu = pageId
+            this.page = null
             this.pages.map(page => {
                if (page.id === pageId) {
-                  this.page = this.pages[page]
+                  this.page = page
+                  this.menuSelected = page.id
+                  this.pageSelected = page.name
                   return false
                }
             })
@@ -140,21 +150,30 @@ export default {
       },
 
       onClickMenu(index) {
-         this.selectedMenu = index
+         this.menuSelected = index
          this.$router.push(this.menu[index].to)
       },
-
-      onClickPage(id) {
-         this.selectedMenu = id
-         let spaceId = this.$route.params.spaceId
-         this.$router.push({ name: 'page', params: { spaceId, pageId: id } })
-      }
    },
 
    watch: {
       '$route': function() {
          this.initData()
-      }
+      },
+
+      pageSelected: function(after, before) {
+         if (!after) {
+            this.pageSelected = before
+            return false
+         }
+
+         let pageId = this.$route.params.pageId
+         let spaceId = this.$route.params.spaceId
+         let page = this['pages/pageByName'](spaceId, after)
+         if (pageId !== page.id) {
+            this.menuSelected = page.id
+            this.$router.push({ name: 'page', params: { spaceId, pageId: page.id } })
+         }
+      },
    },
 
    components: {
@@ -166,3 +185,9 @@ export default {
    }
 }
 </script>
+
+<style lang="scss">
+.q-tree__node--selected > div {
+   font-weight: bolder;
+}
+</style>

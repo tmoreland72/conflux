@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 export function ADD_PAGE( state , item) {
    let pages = {...state.pages}
    pages[item.id] = item

@@ -67,4 +67,29 @@ const groupArray = (items, groupBy) => {
    return _groupBy(items, groupBy)
 }
 
-export { sortArray, sortObject, filterArray, filterArchived, groupArray }
+const arrayToTree = (data, root = 'root') => {
+   if (!data.length) return data
+
+   let t = {}
+   data.forEach(o => {
+      let node = {
+         label: o.name,
+         parent: o.parent,
+         id: o.id
+      }
+      Object.assign(t[node.id] = t[node.id] || {}, node)
+      t[node.parent] = t[node.parent] || {}
+      t[node.parent].children = t[node.parent].children || []
+      t[node.parent].children.push(t[node.id])
+   })
+   return t[root].children
+}
+
+export {
+   sortArray,
+   sortObject,
+   filterArray,
+   filterArchived,
+   groupArray,
+   arrayToTree
+}

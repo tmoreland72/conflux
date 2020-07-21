@@ -24,6 +24,11 @@ export default {
       return sortArray(sorted, ['name'])
    },
 
+   pageByName: (state, getters) => (spaceId,name) => {
+      let pages = filter(getters.sorted(spaceId), { name })
+      return pages[0]
+   },
+
    starred: (state, getters) => (spaceId) => {
       let personal = []
       getters.sorted(spaceId).map(item => {

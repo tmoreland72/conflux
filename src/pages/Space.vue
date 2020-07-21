@@ -145,10 +145,6 @@ export default {
       onClickMenu(index) {
          this.menuSelected = index
       },
-
-      onDelete() {
-         Notify.create('Coming soon...')
-      },
    },
 
    watch: {

@@ -4,6 +4,7 @@
          :space="space"
          :editMode.sync="editMode"
          :onSave="() => onSave()"
+         :onArchive="() => onArchive()"
          :onDelete="() => onDelete()"
       />
 
@@ -76,7 +77,7 @@ export default {
             .then(() => {
                Notify.create('Update successful')
                this.editMode = false
-               return true
+               this.$router.push({ name: 'space', params: { spaceId: space.id }})
             })
             .catch(err => {
                console.error("onSave", err)
@@ -85,9 +86,55 @@ export default {
             })
       },
 
+      async _toggleArchive() {
+         let space = {
+            ...this.space,
+            active: !this.space.active
+         }
+         await this['spaces/updateSpace'](space)
+            .then(() => {
+               Notify.create('Update successful')
+               this.editMode = false
+               this.initData()
+               //this.$router.push({ name: 'space', params: { spaceId: space.id } })
+            })
+            .catch(err => {
+               console.error("onSave", err)
+               Notify.create('Update failed')
+               return false
+            })
+      },
+
+      async onArchive() {
+         if (this.space.active) {
+            this.$q.dialog({
+                  title: 'Confirmation',
+                  message: 'Archiving a space will remove it from view but will NOT delete anything.  You can restore a space at any time. Are you sure?',
+                  ok: {
+                     color: 'negative',
+                     label: 'Yes, Continue Archive',
+                     noCaps: true,
+                  },
+                  cancel: {
+                     flat: true,
+                     label: 'No',
+                     noCaps: true,
+                  }
+               })
+               .onOk(async () => {
+                  await this._toggleArchive()
+               })
+               .onCancel(() => {
+                  return false
+               })
+         } else {
+            await this._toggleArchive()
+         }
+      },
+
       onDelete() {
          Notify.create('Coming soon...')
-      }
+      },
    },
 
    watch: {

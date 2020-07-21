@@ -13,7 +13,10 @@
             <q-btn dense flat round :icon="handleStarIcon()" :loading="loading.star" no-caps @click="onClickStar()"/>
             <q-btn dense flat round icon="visibility" @click="onClickVisibility()"/>
             <q-btn color="primary" label="Share" no-caps @click="onClickShare()" />
-            <action-menu :onDelete="() => onDelete()"/>
+            <action-menu
+               :onArchive="() => onArchive()"
+               :onDelete="() => onDelete()"
+            />
          </template>
       </div>
    </div>
@@ -32,10 +35,14 @@ export default {
          type: Function,
          required: true,
       },
+      onArchive: {
+         type: Function,
+         required: true,
+      },
       onDelete: {
          type: Function,
          required: true,
-      }
+      },
    },
 
    data() {

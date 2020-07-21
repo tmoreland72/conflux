@@ -51,7 +51,7 @@
          <!-- Page -->
          <template v-slot:after>
             <template v-if="menuSelected === 0">
-               <space-overview :space="space" />
+               <space-overview :space="space" :onDelete="() => onDelete()"/>
             </template>
 
             <template v-else>
@@ -64,6 +64,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { Notify } from 'quasar'
 
 import { arrayToTree } from 'src/helpers/sort'
 
@@ -149,6 +150,10 @@ export default {
       onClickMenu(index) {
          this.menuSelected = index
          this.$router.push(this.menu[index].to)
+      },
+
+      onDelete() {
+         Notify.create('Coming soon...')
       },
    },
 

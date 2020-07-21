@@ -1,6 +1,11 @@
 <template>
    <div class="q-pa-md">
-      <overview-header :space="space" :editMode.sync="editMode" :onSave="() => onSave()"/>
+      <overview-header
+         :space="space"
+         :editMode.sync="editMode"
+         :onSave="() => onSave()"
+         :onDelete="() => onDelete()"
+      />
 
       <div class="q-mt-lg">
          <template v-if="editMode">
@@ -45,6 +50,10 @@ export default {
          type: Object,
          required: true,
       },
+      onDelete: {
+         type: Function,
+         required: true,
+      }
    },
 
    data() {

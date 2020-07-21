@@ -10,9 +10,10 @@
 
          <template v-else>
             <q-btn dense flat round icon="edit" @click="onClickEdit()"/>
+            <q-btn dense flat round :icon="handleStarIcon()" :loading="loading.star" no-caps @click="onClickStar()"/>
             <q-btn dense flat round icon="visibility" @click="onClickVisibility()"/>
             <q-btn color="primary" label="Share" no-caps @click="onClickShare()" />
-            <q-btn :label="starBtnLabel" :loading="loading.star" no-caps @click="onClickStar()"/>
+            <action-menu :onDelete="() => onDelete()"/>
          </template>
       </div>
    </div>
@@ -30,6 +31,10 @@ export default {
       onSave: {
          type: Function,
          required: true,
+      },
+      onDelete: {
+         type: Function,
+         required: true,
       }
    },
 
@@ -40,7 +45,6 @@ export default {
             star: false,
          },
          space: {},
-         starBtnLabel: 'Unstar this space',
       }
    },
 
@@ -54,6 +58,14 @@ export default {
       initData() {
          let spaceId = this.$route.params.spaceId
          this.space = this.spaces[spaceId]
+      },
+
+      handleStarIcon() {
+         if (this.space.starred) {
+            return 'star'
+         } else {
+            return 'star_border'
+         }
       },
 
       onClickCancel() {
@@ -98,14 +110,8 @@ export default {
       }
    },
 
-   watch: {
-      'space.starred': function(value) {
-         if (value) {
-            this.starBtnLabel = 'Unstar this space'
-         } else {
-            this.starBtnLabel = 'Star this space'
-         }
-      }
+   components: {
+      ActionMenu: require("./ActionMenu.vue").default,
    },
 
    beforeMount() {

@@ -1,3 +1,12 @@
+# Version 15 (2020-07-21)
+
+## Features
+*  Added support for nested pages (#4) ([83a4eb](https://github.com/34fame/conflux/commit/83a4ebe0c65397097b46be14470ecf3a1d56b2ee))
+*  Added Tab, Shift-Tab, and Ctrl-S actions in editor mode (#3) ([69c6f6](https://github.com/34fame/conflux/commit/69c6f6788afe8052e22fe161f2302850d3e83deb))
+
+## Chores
+*  Bump to version 15 ([eb4c20](https://github.com/34fame/conflux/commit/eb4c20a08dc4f3d202d9509e26f542e31e6fa0d8))
+
 # Version 14 (2020-07-19)
 
 ## Chores

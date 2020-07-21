@@ -1,3 +1,16 @@
+# Version 16 (2020-07-21)
+
+## Fixes
+*  Accessing space settings does not immediately change content (#6) ([b61831](https://github.com/34fame/conflux/commit/b61831e5013b540a7e6b41831bb3021c60159bed))
+
+## Features
+*  Added archive/restore space ([ebc212](https://github.com/34fame/conflux/commit/ebc2122c24c038463ed6104f6508c427522a5a31))
+*  Added preview when editing ([5f3898](https://github.com/34fame/conflux/commit/5f3898986ebe298597f428b41e55dac9eeee3ce9))
+
+## Chores
+*  Bump to version 16 ([e401d1](https://github.com/34fame/conflux/commit/e401d10663788e282e0cfd6fd5d4a302104ddb9b))
+*  Changed space star action to icon button and added action menu with delete placeholder ([2d2e52](https://github.com/34fame/conflux/commit/2d2e5204b30ae88a437cded16a64f234f7496784))
+
 # Version 15 (2020-07-21)
 
 ## Features

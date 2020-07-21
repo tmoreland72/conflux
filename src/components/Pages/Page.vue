@@ -9,23 +9,64 @@
 
       <div class="q-mt-lg">
          <template v-if="editMode">
+            <div class="q-pa-lg row justify-end">
+               <q-toggle label="Show Preview" v-model="preview" />
+            </div>
+
             <div class="q-pa-lg full-width">
-               <q-input
-                  autocorrect="off"
-                  autocapitalize="off"
-                  autocomplete="off"
-                  spellcheck="false"
-                  autofocus
-                  autogrow
-                  borderless
-                  filled
-                  style="font-family: dm,Roboto,monospace;"
-                  v-model="content"
-                  @keydown.ctrl.s.exact.prevent="() => {}"
-                  @keydown.shift.tab.exact.prevent="() => {}"
-                  @keydown.tab.exact.prevent="() => {}"
-                  @keydown="(e) => mxOnKey(e)"
-               />
+               <template v-if="preview">
+               <q-splitter :value="50">
+                  <template v-slot:before>
+                     <div class="q-mr-md">
+                     <q-input
+                        autocorrect="off"
+                        autocapitalize="off"
+                        autocomplete="off"
+                        spellcheck="false"
+                        autofocus
+                        autogrow
+                        borderless
+                        filled
+                        style="font-family: dm,Roboto,monospace;"
+                        v-model="content"
+                        @keydown.ctrl.s.exact.prevent="() => {}"
+                        @keydown.shift.tab.exact.prevent="() => {}"
+                        @keydown.tab.exact.prevent="() => {}"
+                        @keydown="(e) => mxOnKey(e)"
+                     />
+                     </div>
+                  </template>
+
+                  <template v-slot:after>
+                     <div class="q-ml-md">
+                     <q-markdown
+                        :task-lists-enable="page.type === 'todo'"
+                        :src="content"
+                     />
+                     </div>
+                  </template>
+               </q-splitter>
+               </template>
+
+               <template v-else>
+                  <q-input
+                     autocorrect="off"
+                     autocapitalize="off"
+                     autocomplete="off"
+                     spellcheck="false"
+                     autofocus
+                     autogrow
+                     borderless
+                     filled
+                     style="font-family: dm,Roboto,monospace;"
+                     v-model="content"
+                     @keydown.ctrl.s.exact.prevent="() => {}"
+                     @keydown.shift.tab.exact.prevent="() => {}"
+                     @keydown.tab.exact.prevent="() => {}"
+                     @keydown="(e) => mxOnKey(e)"
+                  />
+               </template>
+
             </div>
          </template>
 
@@ -54,6 +95,7 @@ export default {
          content: '',
          page: {},
          pageName: '',
+         preview: false,
          space: {}
       }
    },
@@ -89,7 +131,6 @@ export default {
             .then(() => {
                Notify.create('Update successful')
                this.editMode = false
-               this.$router.push({ name: 'space', params: { spaceId }})
                return true
             })
             .catch(err => {
@@ -106,7 +147,11 @@ export default {
             .then(async () => {
                Notify.create('Delete successful')
                this.editMode = false
-               await this.$router.push({ name: 'space', params: { spaceId }})
+               if (this.page.parent === 0) {
+                  await this.$router.push({ name: 'space', params: { spaceId }})
+               } else {
+                  await this.$router.push({ name: 'page', params: { spaceId, pageId: this.page.parent }})
+               }
             })
             .catch(err => {
                console.error("onDelete", err)

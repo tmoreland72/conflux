@@ -5,7 +5,6 @@
          <template v-slot:before>
             <div class="q-pa-sm text-grey-9 text-body2">
                <q-list padding>
-                  <q-item-label header>Space</q-item-label>
                   <q-item>
                      <q-item-section avatar>
                         <q-avatar square rounded :color="handleIconColor()" :icon="space.icon" size="md" text-color="white" />
@@ -35,18 +34,16 @@
                   </q-item>
 
                   <div class="q-mt-lg">
-                     <q-item-label header>Pages</q-item-label>
+                     <q-tree
+                        default-expand-all
+                        no-nodes-label="No pages found"
+                        no-results-label="No matches found"
+                        :nodes="pageTree"
+                        node-key="label"
+                        selected-color="primary"
+                        :selected.sync="pageSelected"
+                     />
                   </div>
-
-                  <q-tree
-                     default-expand-all
-                     no-nodes-label="No pages found"
-                     no-results-label="No matches found"
-                     :nodes="pageTree"
-                     node-key="label"
-                     selected-color="primary"
-                     :selected.sync="pageSelected"
-                  />
                </q-list>
             </div>
          </template>

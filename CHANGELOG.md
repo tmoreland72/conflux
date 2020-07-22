@@ -1,3 +1,11 @@
+# Version 17 (2020-07-22)
+
+## Features
+*  Add mermaid markdown plugin (#8) ([038828](https://github.com/34fame/conflux/commit/03882862a14f847bc5e40abf2daa9d4604ff2eff))
+
+## Chores
+*  Bump to version 17 ([0676d5](https://github.com/34fame/conflux/commit/0676d5c77f386cd03c9653e900758d1a58876f9b))
+
 # Version 16 (2020-07-21)
 
 ## Fixes

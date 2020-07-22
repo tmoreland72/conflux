@@ -60,7 +60,6 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { Notify } from 'quasar'
 
 import { arrayToTree } from 'src/helpers/sort'
 
@@ -81,7 +80,10 @@ export default {
                icon: 'settings',
                to: {
                   name: 'space-settings',
-                  params: { spaceId: this.$route.params.spaceId }
+                  params: {
+                     spaceId: this.$route.params.spaceId,
+                     initData: () => this.initData(),
+                  }
                }
             },
          ],

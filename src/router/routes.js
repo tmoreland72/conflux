@@ -24,7 +24,8 @@ const routes = [
           {
             name: 'space-settings',
             path: 'settings',
-            component: () => import('pages/Settings.vue')
+            props: true,
+            component: () => import('components/Spaces/Settings.vue')
           },
           {
             name: 'page',

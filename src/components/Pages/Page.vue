@@ -39,10 +39,7 @@
 
                   <template v-slot:after>
                      <div class="q-ml-md">
-                     <q-markdown
-                        :task-lists-enable="page.type === 'todo'"
-                        :src="content"
-                     />
+                        <markdown :src="content" />
                      </div>
                   </template>
                </q-splitter>
@@ -72,10 +69,7 @@
 
          <template v-else>
             <div class="q-pa-lg full-width">
-               <q-markdown
-                  :task-lists-enable="page.type === 'todo'"
-                  :src="page.content"
-               />
+               <markdown :src="page.content" />
             </div>
          </template>
       </div>
@@ -85,7 +79,6 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { Notify } from 'quasar'
-
 import mxKeyActions from 'src/mixins/mxKeyActions'
 
 export default {
@@ -181,6 +174,7 @@ export default {
 
    components: {
       PageHeader: require("./Header.vue").default,
+      Markdown: require("components/Markdown.vue").default,
    },
 
    beforeMount() {

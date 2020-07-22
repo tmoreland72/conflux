@@ -32,7 +32,7 @@
 
          <template v-else>
             <div class="q-pa-lg full-width">
-               <q-markdown :src="space.overview" />
+               <q-markdown :src="space.overview"/>
             </div>
          </template>
       </div>
@@ -71,16 +71,16 @@ export default {
       async onSave() {
          let space = {
             ...this.space,
-            overview: this.content
+            overview: this.content,
          }
          await this['spaces/updateSpace'](space)
             .then(() => {
                Notify.create('Update successful')
                this.editMode = false
-               this.$router.push({ name: 'space', params: { spaceId: space.id }})
+               this.$router.push({ name: 'space', params: { spaceId: space.id } })
             })
             .catch(err => {
-               console.error("onSave", err)
+               console.error('onSave', err)
                Notify.create('Update failed')
                return false
             })
@@ -89,7 +89,7 @@ export default {
       async _toggleArchive() {
          let space = {
             ...this.space,
-            active: !this.space.active
+            active: !this.space.active,
          }
          await this['spaces/updateSpace'](space)
             .then(() => {
@@ -99,7 +99,7 @@ export default {
                //this.$router.push({ name: 'space', params: { spaceId: space.id } })
             })
             .catch(err => {
-               console.error("onSave", err)
+               console.error('onSave', err)
                Notify.create('Update failed')
                return false
             })
@@ -119,7 +119,7 @@ export default {
                      flat: true,
                      label: 'No',
                      noCaps: true,
-                  }
+                  },
                })
                .onOk(async () => {
                   await this._toggleArchive()
@@ -144,15 +144,15 @@ export default {
          } else {
             this.content = ''
          }
-      }
+      },
    },
 
    components: {
-      OverviewHeader: require("./Header.vue").default,
+      OverviewHeader: require('./Header.vue').default,
    },
 
    beforeMount() {
       this.initData()
-   }
+   },
 }
 </script>

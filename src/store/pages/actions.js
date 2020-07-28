@@ -10,12 +10,17 @@ export default {
    },
 
    addPage: async ({ commit, state }, item) => {
+      let keys = Object.keys(item)
+
       item.key = await derive.key({...state.pages}, item, 'name', item.spaceId)
-      item.id = derive.uuid({})
-      item.active = true
-      item.starred = true
-      item.created = time.currentTime()
-      item.content = item.name + '\n' + '==='
+
+      // Conditions support importing new pages
+      if (!keys.includes('id')) item.id = derive.uuid({})
+      if (!keys.includes('content')) item.content = item.name + '\n' + '==='
+      if (!keys.includes('active')) item.active = true
+      if (!keys.includes('starred')) item.starred = true
+      if (!keys.includes('created')) item.created = time.currentTime()
+      if (keys.includes('created')) item.updated = time.currentTime()
 
       let pages = { ...state.pages }
       pages[item.id] = item

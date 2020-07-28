@@ -117,7 +117,11 @@ export default {
       async onClickImport() {
          const file = this.importFile
          let content = await file.text()
-         if (!content) return false
+
+         if (!content) {
+            Notify.create('Invalid import file detected')
+            return false
+         }
 
          let spaceImport = JSON.parse(content)
          spaceImport.id = this.space.id
@@ -129,11 +133,11 @@ export default {
             pagesImport.map(async page => {
                page.spaceId = spaceImport.id
                if (this.pages[page.id]) {
-                  let upres = await this['pages/updatePage'](page)
-                  console.log("update", upres)
+                  let update = await this['pages/updatePage'](page)
+                  console.log("update", update)
                } else {
-                  let adres = await this['pages/addPage'](page)
-                  console.log("add", adres)
+                  let add = await this['pages/addPage'](page)
+                  console.log("add", add)
                }
             })
          })

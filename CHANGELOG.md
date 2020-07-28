@@ -1,3 +1,8 @@
+# Version 24 (2020-07-28)
+
+## Chores
+*  Bump to version 24 ([665212](https://github.com/34fame/conflux/commit/665212c1666b54608ffa7d6045879884d7e4defa))
+
 # Version 23 (2020-07-28)
 
 ## Chores

@@ -1,3 +1,14 @@
+# Version 20 (2020-07-28)
+
+## Fixes
+*  Resolved import space issues when pages are created ([8d2c5b](https://github.com/34fame/conflux/commit/8d2c5bbebf3e7702c9c8e0e215a244af8eda27b5))
+
+## Chores
+*  Bump to version 20 ([b8f603](https://github.com/34fame/conflux/commit/b8f603db49aef93cd0255ab19506f5510a9534e3))
+*  Bump to version 19 ([10893b](https://github.com/34fame/conflux/commit/10893b2998e69d1b983ef6c0398cbcabb73d4551))
+*  Set app version in the app store state ([185903](https://github.com/34fame/conflux/commit/1859033649dfb31b9d9c027a78b427215fb26bd4))
+*  Remove dank mono css file ([dfa552](https://github.com/34fame/conflux/commit/dfa552fdc82b0d93dbce71979935ac47f9934dbe))
+
 # Version 18 (2020-07-28)
 
 ## Chores

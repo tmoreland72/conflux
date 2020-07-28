@@ -19,8 +19,8 @@ fs.writeFileSync(PACKAGE, JSON.stringify(packageObj, null, 2))
 child.execSync('git add .')
 child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
 
-const appStateJs = fs.readFileSync(APP, 'utf-8')
-appStateJs.replace("%version%", `"${newVersion}"`)
+const currentStateJs = fs.readFileSync(APP, 'utf-8')
+let appStateJs = currentStateJs.replace("%version%", `"${newVersion}"`)
 console.log('appStateJs', appStateJs)
 fs.writeFileSync(APP, appStateJs)
 

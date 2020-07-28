@@ -20,7 +20,8 @@ child.execSync('git add .')
 child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
 
 const appStateJs = fs.readFileSync(APP, 'utf-8')
-appStateJs.replace('%version%', `'${newVersion}'`)
+appStateJs.replace("%version%", `"${newVersion}"`)
+console.log('appStateJs', appStateJs)
 fs.writeFileSync(APP, appStateJs)
 
 const currentChangelog = fs.readFileSync(CHANGELOG, 'utf-8')

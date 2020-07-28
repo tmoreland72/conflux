@@ -1,3 +1,10 @@
+# Version 18 (2020-07-28)
+
+## Chores
+*  Bump to version 18 ([9416ad](https://github.com/34fame/conflux/commit/9416ad3fae9d1b4b50b8a5967ee7731cbbbafbfb))
+*  Replaced Dank Mono css with ttf to support build process ([b914c8](https://github.com/34fame/conflux/commit/b914c862f1224dfc3bccb77e949a7987f6db6bfc))
+*  Updated CHANGELOG.md ([e476d6](https://github.com/34fame/conflux/commit/e476d68719607b0bab7c5adfa0e3d1bf31b55246))
+
 # Version 17 (2020-07-22)
 
 ## Features

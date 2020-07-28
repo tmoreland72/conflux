@@ -22,7 +22,11 @@
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
-    "@quasar/quasar-app-extension-qmarkdown": "^1.0.29"
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.29",
+    "devtron": "^1.4.0",
+    "electron": "^9.0.0",
+    "electron-debug": "^3.0.1",
+    "electron-devtools-installer": "^3.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

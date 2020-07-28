@@ -6,6 +6,9 @@ node_modules
 .quasar
 /dist
 
+# Electron related directories and files
+src-electron
+
 # Cordova related directories and files
 /src-cordova/node_modules
 /src-cordova/platforms
@@ -31,3 +34,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# Firebase directories and files
+.firebase

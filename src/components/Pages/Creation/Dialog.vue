@@ -10,7 +10,7 @@
             <q-step
                :name="1"
                title="Select space"
-               icon="content_copy"
+               icon="folder_open"
                :done="step > 1"
             >
                <div class="column q-gutter-md">
@@ -19,6 +19,7 @@
                      <q-select
                         color="primary"
                         emit-value
+                        filled
                         map-options
                         :options="parentOptions"
                         outline
@@ -31,6 +32,7 @@
                      <q-select
                         color="primary"
                         emit-value
+                        filled
                         map-options
                         :options="spaceOptions"
                         outline
@@ -44,6 +46,7 @@
             <q-step
                :name="2"
                :done="step > 2"
+               icon="file_copy"
                title="Select a Page Template"
             >
                <page-templates :template.sync="template"/>
@@ -51,6 +54,7 @@
 
             <q-step
                :name="3"
+               icon="description"
                title="Provide Page details"
             >
                <page-form :onAdd="onAdd"/>

@@ -1,5 +1,5 @@
 export default function () {
   return {
-    version: 25
+    version: 26
   }
 }

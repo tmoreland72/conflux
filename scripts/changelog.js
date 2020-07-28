@@ -6,7 +6,7 @@ process.chdir('C:\\code\\34fame\\q-conflux')
 
 const CHANGELOG = './CHANGELOG.md'
 const PACKAGE = './package.json'
-const APP = './store/app/state.js'
+const APP = './src/store/app/state.js'
 
 const REPO = 'https://github.com/34fame/conflux'
 

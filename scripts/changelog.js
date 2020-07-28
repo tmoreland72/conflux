@@ -6,6 +6,8 @@ process.chdir('C:\\code\\34fame\\q-conflux')
 
 const CHANGELOG = './CHANGELOG.md'
 const PACKAGE = './package.json'
+const APP = './store/app/state.js'
+
 const REPO = 'https://github.com/34fame/conflux'
 
 const currentPackageJson = fs.readFileSync(PACKAGE, 'utf-8')
@@ -16,6 +18,10 @@ packageObj.version = String(newVersion)
 fs.writeFileSync(PACKAGE, JSON.stringify(packageObj, null, 2))
 child.execSync('git add .')
 child.execSync(`git commit -m "chore: Bump to version ${newVersion}"`)
+
+const appStateJs = fs.readFileSync(APP, 'utf-8')
+appStateJs.replace('%version%', `'${newVersion}'`)
+fs.writeFileSync(APP, appStateJs)
 
 const currentChangelog = fs.readFileSync(CHANGELOG, 'utf-8')
 let newChangelog = `# Version ${newVersion} (${new Date().toISOString().split('T')[0]})\n\n`

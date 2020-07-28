@@ -14,6 +14,9 @@
                <q-btn align="left" flat color="grey-9" label="Terms of Service" no-caps />
                <q-btn align="left" flat color="grey-9" label="Privacy Policy" no-caps />
 
+               <q-separator />
+
+               <div class="q-mt-md text-caption text-italic text-grey-7 row justify-center">Conflux v{{version}}</div>
             </div>
          </div>
       </q-menu>
@@ -21,7 +24,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+   computed: {
+      ...mapState('app', ['version'])
+   }
+
 }
 </script>
 

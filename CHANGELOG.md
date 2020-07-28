@@ -1,3 +1,11 @@
+# Version 27 (2020-07-28)
+
+## Features
+*  Show app version in Help Menu ([10c38a](https://github.com/34fame/conflux/commit/10c38a8116f6b96845fc73941744233b08fc3525))
+
+## Chores
+*  Bump to version 27 ([418ad3](https://github.com/34fame/conflux/commit/418ad32b82d5b513523e8676e09b7ba9d9d1ff92))
+
 # Version 26 (2020-07-28)
 
 ## Chores

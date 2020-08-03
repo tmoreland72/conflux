@@ -6,10 +6,13 @@
             ref="stepper"
             color="primary"
             animated
+            alternative-labels
+            style="min-width: 320px;"
          >
             <q-step
                icon="create_new_folder"
                :name="1"
+               title="Template"
                :done="step > 1"
             >
                <space-templates :template.sync="template"/>
@@ -18,6 +21,7 @@
             <q-step
                icon="folder"
                :name="2"
+               title="Details"
             >
                <space-form :onAdd="onAdd"/>
             </q-step>

@@ -6,10 +6,13 @@
             color="primary"
             ref="stepper"
             v-model="step"
+            alternative-labels
+            style="min-width: 320px;"
          >
             <q-step
-               :name="1"
                icon="folder_open"
+               :name="1"
+               title="Placement"
                :done="step > 1"
             >
                <div class="column q-gutter-md">
@@ -43,16 +46,18 @@
             </q-step>
 
             <q-step
-               :name="2"
-               :done="step > 2"
                icon="file_copy"
+               :name="2"
+               title="Template"
+               :done="step > 2"
             >
                <page-templates :template.sync="template"/>
             </q-step>
 
             <q-step
-               :name="3"
                icon="description"
+               title="Details"
+               :name="3"
             >
                <page-form :onAdd="onAdd"/>
             </q-step>

@@ -9,7 +9,6 @@
          >
             <q-step
                :name="1"
-               title="Select space"
                icon="folder_open"
                :done="step > 1"
             >
@@ -47,7 +46,6 @@
                :name="2"
                :done="step > 2"
                icon="file_copy"
-               title="Select a Page Template"
             >
                <page-templates :template.sync="template"/>
             </q-step>
@@ -55,7 +53,6 @@
             <q-step
                :name="3"
                icon="description"
-               title="Provide Page details"
             >
                <page-form :onAdd="onAdd"/>
             </q-step>

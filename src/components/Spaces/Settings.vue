@@ -41,7 +41,7 @@
                         transition-prev="slide-down"
                         transition-next="slide-up"
                      >
-                        // Import Space
+                        <!-- Import Space -->
                         <q-tab-panel name="content_import">
                            <div class="text-h6 q-mb-md">Import Space</div>
                            <div class="q-mt-md text-body2">
@@ -61,7 +61,7 @@
                            </div>
                         </q-tab-panel>
 
-                        // Export Space
+                        <!-- Export Space -->
                         <q-tab-panel name="content_export">
                            <div class="text-h6 q-mb-md">Export Space</div>
                            <div class="q-mt-md text-body2">
@@ -134,10 +134,8 @@ export default {
                page.spaceId = spaceImport.id
                if (this.pages[page.id]) {
                   let update = await this['pages/updatePage'](page)
-                  console.log("update", update)
                } else {
                   let add = await this['pages/addPage'](page)
-                  console.log("add", add)
                }
             })
          })
@@ -161,7 +159,6 @@ export default {
    },
 
    beforeMount() {
-      console.log("Settings", this.$route)
       this.space = this.spaces[this.$route.params.spaceId]
       this.initData = this.$route.params.initData
    }

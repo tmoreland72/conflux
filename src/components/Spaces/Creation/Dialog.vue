@@ -8,16 +8,16 @@
             animated
          >
             <q-step
+               icon="create_new_folder"
                :name="1"
-               title="Select a Space template"
                :done="step > 1"
             >
                <space-templates :template.sync="template"/>
             </q-step>
 
             <q-step
+               icon="folder"
                :name="2"
-               title="Provide Space details"
             >
                <space-form :onAdd="onAdd"/>
             </q-step>

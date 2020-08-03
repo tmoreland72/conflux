@@ -1,3 +1,9 @@
+# Version 28 (2020-08-03)
+
+## Chores
+*  Bump to version 28 ([91339b](https://github.com/34fame/conflux/commit/91339b9a5a7dcaa1dc9e786b5ad2ab4a5f05aa43))
+*  Remove descriptions for Steppers ([e93bcd](https://github.com/34fame/conflux/commit/e93bcd5e212ddcd8c4a6427fbcf78efbfb30ce00))
+
 # Version 27 (2020-07-28)
 
 ## Features

@@ -6,9 +6,10 @@
   "author": "Troy Moreland <49797484+34fame@users.noreply.github.com>",
   "private": true,
   "scripts": {
-    "deploy": "firebase deploy --only hosting",
-    "test": "echo \"No test specified\" && exit 0",
-    "release": "node scripts/changelog.js && firebase deploy --only hosting"
+    "build": "quasar build",
+    "deploy": "yarn run build && firebase deploy --only hosting",
+    "release": "node scripts/changelog.js && yarn run deploy",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@liradb2000/markdown-it-mermaid": "^0.4.1",

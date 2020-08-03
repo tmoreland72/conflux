@@ -8,7 +8,7 @@
   "scripts": {
     "build": "quasar build",
     "deploy": "yarn run build && firebase deploy --only hosting",
-    "release": "node scripts/changelog.js && yarn run deploy",
+    "release": "node ../scripts/changelog.js && yarn run deploy",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {

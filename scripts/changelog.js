@@ -2,9 +2,9 @@ const child = require('child_process')
 const fs = require('fs')
 
 const process = require('process')
-process.chdir('C:\\code\\34fame\\q-conflux')
+process.chdir('C:\\code\\34fame\\conflux\\client')
 
-const CHANGELOG = './CHANGELOG.md'
+const CHANGELOG = '../CHANGELOG.md'
 const PACKAGE = './package.json'
 const APP = './src/store/app/state.js'
 

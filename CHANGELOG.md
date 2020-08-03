@@ -1,3 +1,9 @@
+# Version 29 (2020-08-03)
+
+## Chores
+*  Bump to version 29 ([46cf11](https://github.com/34fame/conflux/commit/46cf11fcda685e32ee84d6cc630ac04c84e50854))
+*  Use Stepper alternate-labels and short titles ([3f568d](https://github.com/34fame/conflux/commit/3f568d2b55617de97398b81e09ffdf068a489544))
+
 # Version 28 (2020-08-03)
 
 ## Chores

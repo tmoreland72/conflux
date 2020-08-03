@@ -1,3 +1,9 @@
+# Version 30 (2020-08-03)
+
+## Chores
+*  Bump to version 30 ([f77cd0](https://github.com/34fame/conflux/commit/f77cd0cd0c68011e27ae9dcfe5cd42a1bbd85d10))
+*  Add build script to package.json ([9bd1bb](https://github.com/34fame/conflux/commit/9bd1bb032304da171427e980a0f49e22bfd093e1))
+
 # Version 29 (2020-08-03)
 
 ## Chores

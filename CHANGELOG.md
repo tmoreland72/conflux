@@ -1,3 +1,14 @@
+# Version 33 (2020-08-17)
+
+## Chores
+*  Bump to version 33 ([0f5e7a](https://github.com/34fame/conflux/commit/0f5e7af81197fecf610a708fef5c6717849267fa))
+*  Upgraded packages ([9d301c](https://github.com/34fame/conflux/commit/9d301c1617bdfdaabfbcf2b56d40b21b7728405f))
+*  Update README ([bf918b](https://github.com/34fame/conflux/commit/bf918b30df6e4338d75f88352336f6c758d7b271))
+*  Update README ([dc94d8](https://github.com/34fame/conflux/commit/dc94d8cc789ab702ad2f1944748d5446c64a3faf))
+*  Update README ([348da5](https://github.com/34fame/conflux/commit/348da5f3ab0e273222bfb9b375f55d8abb98e1ee))
+*  Update README ([9cab0d](https://github.com/34fame/conflux/commit/9cab0d59c7ce02391f0f0fc988879bb88dcb04c7))
+*  Update README ([cc73a2](https://github.com/34fame/conflux/commit/cc73a2f54076b99b763f073dc9450fb02fc1ef66))
+
 # Version 32 (2020-08-17)
 
 ## Chores

@@ -77,52 +77,100 @@ Conflux is __still in development__.  Currently, it is a pet project because I n
 - Star/Unstar pages
 - Edit pages (markdown)
 - Delete pages
-- Data stored in Local Storage
+- Data stored in Firestore (Google Firebase)
 
 ### Built With
 
-* [Vue.js](https://vuejs.org)
-* [Quasar Framework](https://quasar.dev)
-* [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
+- [Vue.js](https://vuejs.org)
+- [Quasar Framework](https://quasar.dev)
+- [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
+- [Quasar Dotenv Extension](https://github.com/quasarframework/app-extension-dotenv)
+- [Google Firebase](https://firebase.google.com/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To run your own Conflux instance you'll need to have a Firebase account and a project setup for Conflux.
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org)
-* [Quasar Framework](https://quasar.dev)
+- [Node.js](https://nodejs.org)
+- [Quasar Framework](https://quasar.dev)
 ```sh
 npm install quasar -g
-```
-```sh
 yarn global add quasar
 ```
 
+- [Google Firebase](https://firebase.google.com/)
+```sh
+yarn global add firebase-tools
+```
+
 ### Installation
- 
-1. Clone the repo
+
+- Clone the repo
 ```sh
 git clone https://github.com/34fame/conflux.git
 ```
-2. Install NPM packages
+
+- Install NPM packages
 ```sh
+cd conflux/client
+yarn
+
+cd conflux/server
 yarn
 ```
 
+- Create Client Environment File(s)
+```sh 
+cd conflux/client
+cp .env.example .env.development
+cp .env.example .env.production
+```
+
+- Configure Firebase for Client
+```sh 
+cd conflux/client
+firebase init
+```
+All you need here is to enable Hosting if you plan to host within Firebase.
+
+- Configure Firebase for Server
+```sh 
+cd conflux/server
+firebase init
+```
+Include Firestore and allow overwrites of config files but NOT the `index.js`.  That way your project name is
+ used everywhere.  You then need to create a Service Account and place it under the `Functions` folder as `google
+ -service-account.json` (or you can update Firebase config to use a different name or path).
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Basic Usage
 
-Usage examples will be provided later in the development process.
+### Create a Space
+
+A Space could be a project or topic.
+
+### Create a Page
+
+You can create Pages inside Spaces.  Pages can be created at the "TOP" of the Space within another Page which
+ automatically creates a hierarchy.
+
+### Managing Content
+
+Content, as in Space Overviews and Page content, are in markdown syntax.  A great reference can be found [here](https
+://www.markdownguide.org/).  The [_Mermaid_ plugin](https://mermaid-js.github.io/mermaid) is installed which supports building different diagrams.
+
+
 
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/34fame/conflux/issues) for a list of proposed features (and known issues).
+
+
 
 <!-- CONTRIBUTING -->
 ## Contributing

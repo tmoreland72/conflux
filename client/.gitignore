@@ -1,0 +1,4 @@
+.quasar
+.idea
+.env.development
+.env.production

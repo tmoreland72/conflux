@@ -78,7 +78,6 @@ export default {
          formData.private = this.template.type === 'private'
          await this.addSpace(formData)
          .then(result => {
-            console.log("result", result)
             Notify.create('Spaced added')
             this.$router.push({ name: 'home' })
          })

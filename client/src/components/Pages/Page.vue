@@ -94,21 +94,23 @@ export default {
    },
 
    computed: {
-      ...mapState('spaces', ['spaces']),
-      ...mapGetters(['pages/page']),
+      ...mapGetters([
+         'pages/page'
+      ]),
    },
 
    mixins: [ mxKeyActions ],
 
    methods: {
       ...mapActions([
+         'spaces/getSpace',
          'pages/updatePage',
          'pages/deletePage'
       ]),
 
       initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = this.spaces[spaceId]
+         this.space = this['spaces/getSpace'](spaceId)
          let pageId = this.$route.params.pageId
          this.page = this['pages/page'](pageId)
       },
@@ -140,7 +142,7 @@ export default {
                Notify.create('Delete successful')
                this.editMode = false
                if (this.page.parent === 0) {
-                  await this.$router.push({ name: 'space', params: { spaceId }})
+                  await this.$router.push({ name: 'space-overview', params: { spaceId }})
                } else {
                   await this.$router.push({ name: 'page', params: { spaceId, pageId: this.page.parent }})
                }

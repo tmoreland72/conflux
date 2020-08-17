@@ -6,7 +6,7 @@
                <q-card
                   class="cursor-pointer shadow-1 space-card"
                   clickable
-                  :key="s.key"
+                  :key="s.id"
                   style="min-width: 160px;"
                   v-ripple
                   v-for="s in spaces()"
@@ -34,11 +34,11 @@
             <q-list>
                <q-item
                   clickable
-                  :key="s.key"
+                  :key="s.id"
                   style="min-width: 160px;"
                   v-for="s in spaces()"
                   v-ripple
-                  :to="{ name: 'space', params: { spaceId: s.key } }"
+                  :to="{ name: 'space-overview', params: { spaceId: s.id } }"
                >
                   <q-item-section avatar>
                      <q-avatar square rounded :color="handleIconColor(s)" :icon="s.icon" size="md" text-color="white" />
@@ -109,7 +109,7 @@ export default {
       },
 
       onClick(s) {
-         this.$router.push({ name: 'space', params: { spaceId: s.key } })
+         this.$router.push({ name: 'space-overview', params: { spaceId: s.id } })
       },
 
       spaces() {

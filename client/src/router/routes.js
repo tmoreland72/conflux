@@ -17,7 +17,7 @@ const routes = [
         component: () => import('pages/Space.vue'),
         children: [
           {
-            name: 'space',
+            name: 'space-overview',
             path: 'overview',
             component: () => import('components/Spaces/Overview.vue')
           },

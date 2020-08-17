@@ -16,6 +16,7 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "firebase": "^7.18.0",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "quasar": "^1.0.0",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
+    "@quasar/quasar-app-extension-dotenv": "^1.0.5",
     "@quasar/quasar-app-extension-qmarkdown": "^1.0.29",
     "devtron": "^1.4.0",
     "electron": "^9.0.0",

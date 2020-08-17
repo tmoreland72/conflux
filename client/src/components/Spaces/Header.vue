@@ -14,6 +14,7 @@
             <q-btn dense flat round icon="visibility" @click="onClickVisibility()"/>
             <q-btn color="primary" label="Share" no-caps @click="onClickShare()" />
             <action-menu
+               :space="space"
                :onArchive="() => onArchive()"
                :onDelete="() => onDelete()"
             />
@@ -23,11 +24,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import { Notify } from 'quasar'
 
 export default {
    props: {
+      space: {
+         type: Object,
+         required: true,
+      },
       editMode: {
          type: Boolean,
       },
@@ -51,21 +56,13 @@ export default {
             save: false,
             star: false,
          },
-         space: {},
       }
    },
 
-   computed: {
-      ...mapState('spaces', ['spaces']),
-   },
-
    methods: {
-      ...mapActions(['spaces/updateSpace']),
-
-      initData() {
-         let spaceId = this.$route.params.spaceId
-         this.space = this.spaces[spaceId]
-      },
+      ...mapActions([
+         'spaces/updateSpace'
+      ]),
 
       handleStarIcon() {
          if (this.space.starred) {
@@ -121,8 +118,5 @@ export default {
       ActionMenu: require("./ActionMenu.vue").default,
    },
 
-   beforeMount() {
-      this.initData()
-   }
 }
 </script>

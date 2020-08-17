@@ -1,0 +1,26 @@
+GET http://localhost:5001/conflux-bacaa/us-central1/api/0NyxKqBtD37vYqLlkDfa/pages
+Content-Type: application/json
+
+###
+
+POST http://localhost:5001/conflux-bacaa/us-central1/api/0NyxKqBtD37vYqLlkDfa/pages
+Content-Type: application/json
+
+{
+   "createdBy": "1234ABCD",
+   "item": {
+      "active": true,
+      "content": "GitHub↵===",
+      "icon": "folder_open",
+      "id": "xjdteh",
+      "key": "github",
+      "name": "GitHub",
+      "parent": 0,
+      "spaceId": "34_fame",
+      "starred": true,
+      "type": "blank"
+   }
+}
+
+###
+

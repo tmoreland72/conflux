@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { Notify } from 'quasar'
 
 import { currentTime } from 'src/helpers/time'
@@ -96,23 +96,29 @@ export default {
          tabInner: 'content_import',
          splitter: 20,
          importFile: null,
-         initData: () => {},
          space: {}
       }
    },
 
    computed: {
-      ...mapGetters(['pages/sorted']),
-      ...mapState('spaces', ['spaces']),
-      ...mapState('pages', ['pages']),
+      ...mapGetters([
+         'pages/page',
+         'pages/sorted'
+      ]),
    },
 
    methods: {
       ...mapActions([
+         'spaces/getSpace',
          'spaces/updateSpace',
          'pages/addPage',
          'pages/updatePage',
       ]),
+
+      async initData() {
+         let spaceId = this.$route.params.spaceId
+         this.space = await this['spaces/getSpace'](spaceId)
+      },
 
       async onClickImport() {
          const file = this.importFile
@@ -132,7 +138,7 @@ export default {
          .then(() => {
             pagesImport.map(async page => {
                page.spaceId = spaceImport.id
-               if (this.pages[page.id]) {
+               if (this['pages/page'](page.id)) {
                   let update = await this['pages/updatePage'](page)
                } else {
                   let add = await this['pages/addPage'](page)
@@ -159,8 +165,7 @@ export default {
    },
 
    beforeMount() {
-      this.space = this.spaces[this.$route.params.spaceId]
-      this.initData = this.$route.params.initData
+      this.initData()
    }
 }
 </script>

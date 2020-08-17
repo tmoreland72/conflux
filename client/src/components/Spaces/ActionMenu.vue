@@ -27,10 +27,14 @@
 
 <script>
 
-import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
    props: {
+      space: {
+         type: Object,
+         required: true
+      },
       onArchive: {
          type: Function,
          required: true,
@@ -41,35 +45,16 @@ export default {
       },
    },
 
-   data() {
-      return {
-         space: {},
-      }
-   },
-
-   computed: {
-      ...mapState('spaces', ['spaces']),
-   },
-
    methods: {
-      initData() {
-         let spaceId = this.$route.params.spaceId
-         this.space = this.spaces[spaceId]
-      },
-
       async onClickArchive() {
          await this.onArchive()
-         this.initData()
+         await this.initData()
       },
 
       async onClickDelete() {
          await this.onDelete()
       },
    },
-
-   beforeMount() {
-      this.initData()
-   }
 
 }
 </script>

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import { arrayToTree } from 'src/helpers/sort'
 
@@ -71,7 +71,7 @@ export default {
                label: 'Overview',
                icon: 'sort',
                to: {
-                  name: 'space',
+                  name: 'space-overview',
                   params: { spaceId: this.$route.params.spaceId }
                }
             },
@@ -98,8 +98,8 @@ export default {
    },
 
    computed: {
-      ...mapState('spaces', ['spaces']),
       ...mapGetters([
+         'spaces/sorted',
          'pages/sorted',
          'pages/page',
          'pages/pageByName',
@@ -107,6 +107,8 @@ export default {
    },
 
    methods: {
+      ...mapActions(['spaces/getSpace']),
+
       //TODO mixin candidate
       handleIconColor(s) {
          if (this.space.private) {
@@ -116,10 +118,14 @@ export default {
          }
       },
 
-      initData() {
-         //this.menuSelected = 0
+      async initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = { ...this.spaces[spaceId] }
+         let space = await this['spaces/getSpace'](spaceId)
+         if (space) {
+            this.space = space
+         } else {
+            return false
+         }
 
          let pages = [...this['pages/sorted'](spaceId)]
          this.pages = pages
@@ -178,10 +184,6 @@ export default {
             this.menuSelected = page.id
          }
       },
-   },
-
-   components: {
-      SpaceOverview: require("components/Spaces/Overview.vue").default,
    },
 
    beforeMount() {

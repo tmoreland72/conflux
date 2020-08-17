@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import { Notify } from 'quasar'
 
 import mxKeyActions from 'src/mixins/mxKeyActions'
@@ -54,30 +54,30 @@ export default {
       }
    },
 
-   computed: {
-      ...mapState('spaces', ['spaces']),
-   },
-
    mixins: [mxKeyActions],
 
    methods: {
-      ...mapActions(['spaces/updateSpace']),
+      ...mapActions([
+         'spaces/getSpaces',
+         'spaces/getSpace',
+         'spaces/updateSpace',
+         'spaces/deleteSpace',
+      ]),
 
-      initData() {
+      async initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = this.spaces[spaceId]
+         this.space = await this['spaces/getSpace'](spaceId)
       },
 
       async onSave() {
-         let space = {
-            ...this.space,
-            overview: this.content,
-         }
+         let space = {...this.space}
+         let content = this.content
+         space.overview = content
          await this['spaces/updateSpace'](space)
-            .then(() => {
+            .then(async () => {
                Notify.create('Update successful')
                this.editMode = false
-               this.$router.push({ name: 'space', params: { spaceId: space.id } })
+               await this.initData()
             })
             .catch(err => {
                console.error('onSave', err)
@@ -96,7 +96,7 @@ export default {
                Notify.create('Update successful')
                this.editMode = false
                this.initData()
-               //this.$router.push({ name: 'space', params: { spaceId: space.id } })
+               //this.$router.push({ name: 'space-overview', params: { spaceId: space.id } })
             })
             .catch(err => {
                console.error('onSave', err)
@@ -133,18 +133,50 @@ export default {
       },
 
       onDelete() {
-         Notify.create('Coming soon...')
+         this.$q.dialog({
+               title: 'Confirmation',
+               message: 'Deleting a space will permanently delete it and all Pages within. Are you sure?',
+               ok: {
+                  color: 'negative',
+                  label: 'Continue Delete',
+                  noCaps: true,
+               },
+               cancel: {
+                  flat: true,
+                  label: 'No',
+                  noCaps: true,
+               },
+            })
+            .onOk(async () => {
+               try {
+                  await this['spaces/deleteSpace'](this.space.id)
+                  await this['spaces/getSpaces']()
+                  Notify.create('Delete successful')
+                  this.editMode = false
+                  this.$router.replace({ name: 'home' })
+               } catch (err) {
+                  console.error('Spaces-Overview', 'onDelete', err)
+                  Notify.create('Update failed')
+               }
+            })
+            .onCancel(() => {
+               return false
+            })
       },
    },
 
    watch: {
       editMode: function(value) {
          if (value) {
-            this.content = this.space.overview
+            if (this.space.overview) this.content = this.space.overview
          } else {
             this.content = ''
          }
       },
+
+      "$route": async function() {
+         await this.initData()
+      }
    },
 
    components: {

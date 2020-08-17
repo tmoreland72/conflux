@@ -62,11 +62,14 @@ export default {
    },
 
    methods: {
-      ...mapActions(['pages/updatePage']),
+      ...mapActions([
+         'spaces/getSpace',
+         'pages/updatePage'
+      ]),
 
-      initData() {
+      async initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = this.spaces[spaceId]
+         this.space = await this['spaces/getSpace'](spaceId)
          let pageId = this.$route.params.pageId
          this.page = this['pages/page'](pageId)
       },

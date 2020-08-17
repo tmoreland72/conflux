@@ -85,6 +85,7 @@ Conflux is __still in development__.  Currently, it is a pet project because I n
 - [Quasar Framework](https://quasar.dev)
 - [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
 - [Quasar Dotenv Extension](https://github.com/quasarframework/app-extension-dotenv)
+- [Mermaid Markdown Plugin](https://mermaid-js.github.io/mermaid)
 - [Google Firebase](https://firebase.google.com/)
 
 <!-- GETTING STARTED -->
@@ -160,7 +161,9 @@ You can create Pages inside Spaces.  Pages can be created at the "TOP" of the Sp
 
 ### Managing Content
 
-Content, as in Space Overviews and Page content, are in markdown syntax.  A great reference can be found [here](https://www.markdownguide.org/).  The [_Mermaid_ plugin](https://mermaid-js.github.io/mermaid) is installed which supports building different diagrams.
+Content, as in Space Overviews and Page content, are in markdown syntax.  A great reference can be found [here](https://www.markdownguide.org/).  
+
+The [_Mermaid_ plugin](https://mermaid-js.github.io/mermaid) is installed which supports building different diagrams.
 
 
 

@@ -46,7 +46,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
+* [Usage](#basic-usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)

@@ -175,8 +175,7 @@ See the [open issues](https://github.com/34fame/conflux/issues) for a list of pr
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any
- contributions you make are **greatly appreciated**.  Utilize [Conventional Commits](https://www.conventionalcommits
- .org/en/v1.0.0/) when creating commit messages.
+ contributions you make are **greatly appreciated**.  Utilize [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) when creating commit messages.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)

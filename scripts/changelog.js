@@ -86,6 +86,7 @@ if (chores.length) {
 fs.writeFileSync(CHANGELOG, `${newChangelog}${currentChangelog}`)
 
 // tag the commit
+process.chdir('C:\\code\\34fame\\conflux')
 child.execSync('git add .')
 child.execSync(`git commit -m "chore: Updated CHANGELOG.md"`)
 child.execSync(`git tag -a -m "Tagged for version ${newVersion}" version${newVersion}`)

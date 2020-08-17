@@ -1,3 +1,9 @@
+# Version 32 (2020-08-17)
+
+## Chores
+*  Bump to version 32 ([617bfd](https://github.com/34fame/conflux/commit/617bfd00fdebdc2df1c663a66029420d05bcf5d6))
+*  Push to update CHANGELOG ([ddf0a6](https://github.com/34fame/conflux/commit/ddf0a6767977ea6b431aefa3a87d2ad02855ac51))
+
 # Version 31 (2020-08-17)
 
 ## Features

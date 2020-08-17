@@ -160,8 +160,7 @@ You can create Pages inside Spaces.  Pages can be created at the "TOP" of the Sp
 
 ### Managing Content
 
-Content, as in Space Overviews and Page content, are in markdown syntax.  A great reference can be found [here](https
-://www.markdownguide.org/).  The [_Mermaid_ plugin](https://mermaid-js.github.io/mermaid) is installed which supports building different diagrams.
+Content, as in Space Overviews and Page content, are in markdown syntax.  A great reference can be found [here](https://www.markdownguide.org/).  The [_Mermaid_ plugin](https://mermaid-js.github.io/mermaid) is installed which supports building different diagrams.
 
 
 

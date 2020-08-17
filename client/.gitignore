@@ -2,3 +2,4 @@
 .idea
 .env.development
 .env.production
+dist

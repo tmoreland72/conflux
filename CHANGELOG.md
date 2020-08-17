@@ -1,3 +1,14 @@
+# Version 31 (2020-08-17)
+
+## Features
+*  Moved to Firestore database ([4d3a50](https://github.com/34fame/conflux/commit/4d3a505755ff459237ce7ffae8fb8a7201ed40ba))
+
+## Chores
+*  Bump to version 31 ([ef10b1](https://github.com/34fame/conflux/commit/ef10b10752b95e54f956b67e009a1b1d748155b2))
+*  Update client/yarn.lock ([af2bf3](https://github.com/34fame/conflux/commit/af2bf3a046503f29beccd99715df005c97fc1d47))
+*  More moves for updated project structure ([d2e854](https://github.com/34fame/conflux/commit/d2e8545105abded34a4f186a2a0e40c21b27cec7))
+*  Create unique client and server root dirs ([066583](https://github.com/34fame/conflux/commit/06658375a923619056826fcfa1f881b2c5ac9ecf))
+
 # Version 30 (2020-08-03)
 
 ## Chores

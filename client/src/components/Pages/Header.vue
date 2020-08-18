@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { Notify } from 'quasar'
 
 export default {
@@ -42,7 +42,7 @@ export default {
       onDelete: {
          type: Function,
          required: true,
-      }
+      },
    },
 
    data() {
@@ -51,28 +51,18 @@ export default {
             save: false,
             star: false,
          },
-         space: {},
          page: {}
       }
    },
 
    computed: {
-      ...mapState('spaces', ['spaces']),
       ...mapGetters(['pages/page'])
    },
 
    methods: {
       ...mapActions([
-         'spaces/getSpace',
          'pages/updatePage'
       ]),
-
-      async initData() {
-         let spaceId = this.$route.params.spaceId
-         this.space = await this['spaces/getSpace'](spaceId)
-         let pageId = this.$route.params.pageId
-         this.page = this['pages/page'](pageId)
-      },
 
       handleStarIcon() {
          if (this.page.starred) {
@@ -102,17 +92,13 @@ export default {
             ...this.page,
             starred: !this.page.starred,
          }
-         await this['pages/updatePage'](page)
-         .then(() => {
+         try {
+            await this['pages/updatePage'](page)
             Notify.create('Update successful')
-         })
-         .catch(() => {
-            Notify.create('Update failed')
-         })
-         .finally(() => {
-            this.initData()
             this.loading.star = false
-         })
+         } catch (err) {
+            Notify.create('Update failed')
+         }
       },
 
       onClickVisibility() {
@@ -127,9 +113,5 @@ export default {
    components: {
       ActionMenu: require("./ActionMenu.vue").default
    },
-
-   beforeMount() {
-      this.initData()
-   }
 }
 </script>

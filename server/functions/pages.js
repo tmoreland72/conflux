@@ -26,7 +26,7 @@ exports.getById = async (req, res) => {
       collection: 'tenants',
       collectionId: tenantId,
       subcollection: 'pages',
-      subcollectionId: id
+      subcollectionId: id,
    }
 
    try {
@@ -55,10 +55,35 @@ exports.create = async (req, res) => {
    try {
       let result = await db.add(payload)
       res.status(201).send(result)
-   } catch(err) {
+   } catch (err) {
       console.error('firebase/pages', 'create', err)
       res.status(400).send('Bad Request')
    }
+}
+
+exports.retrieve = async (req, res) => {
+   //TODO locate individual shared pages
+   const { REQUESTER, SPACES } = req.body
+   let response = []
+   try {
+      Promise.all(SPACES.map(async space => {
+         let payload = {
+            collectionGroup: 'pages',
+            where: ['spaceId', '==', space.id],
+         }
+         let pages = await db.get(payload)
+         pages.map(page => {
+            response.push(page)
+         })
+      }))
+         .then(() => {
+            res.status(200).send(response)
+         })
+   } catch (err) {
+      console.error(err)
+      res.status(400).send(err)
+   }
+
 }
 
 exports.update = async (req, res) => {
@@ -69,7 +94,7 @@ exports.update = async (req, res) => {
       collection: 'tenants',
       collectionId: tenantId,
       subcollection: 'pages',
-      subcollectionId: pageId
+      subcollectionId: pageId,
    }
    let current = await db.get(payload)
 
@@ -90,7 +115,7 @@ exports.update = async (req, res) => {
    try {
       await db.update(payload)
       res.status(200).send()
-   } catch(err) {
+   } catch (err) {
       res.status(400).send('Bad Request')
    }
 }
@@ -108,7 +133,7 @@ exports.delete = async (req, res) => {
    try {
       let result = await db.delete(payload)
       res.status(204).send()
-   } catch(err) {
+   } catch (err) {
       console.error('firebase/pages', 'delete', err)
       res.status(400).send('Bad Request')
    }

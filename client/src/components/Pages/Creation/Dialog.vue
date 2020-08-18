@@ -140,16 +140,22 @@ export default {
          this.parentOptions = parentOptions
 
          spaces.map(space => {
+            if (!space.authorizations.admin && !space.authorizations.create) {
+               return false
+            }
             let option = {
                label: space.name,
-               value: space.key
+               value: space.id
             }
             spaceOptions.push(option)
+            if (space.id === spaceId) {
+               this.spaceSelected = space.id
+            }
          })
          this.spaceOptions = spaceOptions
 
          this.parentSelected = pageId ? pageId : parentOptions[0].value
-         this.spaceSelected = spaceId ? spaceId : spaceOptions[0].value
+         if (!this.spaceSelected) this.spaceSelected = spaceOptions[0].value
       },
 
       async onAdd(formData) {

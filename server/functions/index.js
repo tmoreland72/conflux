@@ -1,11 +1,12 @@
+require('dotenv').config()
+const functions = require('firebase-functions')
+const express = require('express')
+
 const pages = require('./pages')
 const spaces = require('./spaces')
 const users = require('./users')
 const files = require('./files')
 
-const functions = require('firebase-functions')
-
-const express = require('express')
 const app = express()
 
 app.use(function(req, res, next) {
@@ -32,6 +33,10 @@ app.post('/files/:userId/:name', async (req, res) => {
 
 
 // Spaces Operations
+app.post('/spaces/retrieve', async (req, res) => {
+   await spaces.retrieve(req, res)
+})
+
 app.get('/:tenantId/spaces', async (req, res) => {
    await spaces.get(req, res)
 })
@@ -55,6 +60,10 @@ app.delete('/:tenantId/spaces/:id', async (req, res) => {
 
 
 // Pages Operations
+app.post('/pages/retrieve', async (req, res) => {
+   await pages.retrieve(req, res)
+})
+
 app.get('/:tenantId/pages', async (req, res) => {
    await pages.get(req, res)
 })

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { Notify } from 'quasar'
 
 export default {
@@ -74,12 +74,11 @@ export default {
       ...mapActions('spaces', ['addSpace']),
 
       async onAdd(formData) {
-         formData.icon = this.template.icon
          formData.private = this.template.type === 'private'
          await this.addSpace(formData)
          .then(result => {
             Notify.create('Spaced added')
-            this.$router.push({ name: 'home' })
+            this.$router.replace({ name: 'space-overview', params: { spaceId: result } })
          })
          .catch(err => {
             console.error("Error occurred in Dialog", err)

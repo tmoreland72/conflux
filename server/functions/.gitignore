@@ -3,3 +3,4 @@ node_modules/
 google-service-account.json
 firestore-debug.log
 ui-debug.log
+.env

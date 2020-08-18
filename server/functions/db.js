@@ -1,8 +1,8 @@
 const fb = require("./firebase")
 
 exports.get = async (props) => {
-   const { collection, collectionId, subcollection, subcollectionId, where, orderBy } = props
-   let payload = { collection, collectionId, subcollection, subcollectionId, where, orderBy }
+   const { collection, collectionId, subcollection, subcollectionId, collectionGroup, where, orderBy } = props
+   let payload = { collection, collectionId, subcollection, subcollectionId, collectionGroup, where, orderBy }
    return await fb.dbGet(payload)
    .then(result => {
       return result

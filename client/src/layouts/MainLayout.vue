@@ -1,33 +1,31 @@
 <template>
    <q-layout view="hHh Lpr lFf">
-      <q-header elevated>
-         <q-toolbar class="bg-grey-3">
-            <q-icon color="accent" name="topic" size="md"/>
+      <template v-if="isAuthenticated">
+         <q-header elevated>
+            <q-toolbar class="bg-grey-3">
+               <q-icon color="accent" name="topic" size="md"/>
 
-            <div class="q-mx-md text-h6 text-grey-9">Conflux</div>
+               <div class="q-mx-md text-h6 text-grey-9">Conflux</div>
 
-            <div class="q-mx-md row q-gutter-sm">
-               <template v-if="isAuthenticated">
+               <div class="q-mx-md row q-gutter-sm">
                   <q-btn color="grey-9" dense flat label="Home" no-caps :to="{ name: 'home' }"/>
                   <recent/>
                   <spaces/>
-                  <q-btn color="primary" label="Create" no-caps @click="showCreatePage = true"/>
-               </template>
-            </div>
+                  <q-btn color="primary" :disable="!mxAuthorized('create')" label="Create" no-caps @click="showCreatePage = true"/>
+               </div>
 
-            <q-space/>
+               <q-space/>
 
-            <div class="row q-gutter-sm">
-               <template v-if="isAuthenticated">
+               <div class="row q-gutter-sm">
                   <search/>
                   <notifications/>
                   <help-menu/>
                   <q-btn color="grey-9" flat round icon="settings_applications"/>
                   <profile-menu/>
-               </template>
-            </div>
-         </q-toolbar>
-      </q-header>
+               </div>
+            </q-toolbar>
+         </q-header>
+      </template>
 
       <q-page-container>
          <router-view/>
@@ -37,21 +35,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 import Dialog from 'components/Pages/Creation/Dialog'
+import mxAuthorizations from 'src/mixins/mxAuthorizations'
 
 export default {
    data() {
       return {
          showCreatePage: false,
-         spaceId: null,
       }
    },
 
    computed: {
+      ...mapGetters(['spaces/space']),
       ...mapState('auth', ['isAuthenticated']),
    },
+
+   mixins: [mxAuthorizations],
 
    watch: {
       showCreatePage: function(value) {
@@ -61,13 +62,10 @@ export default {
                   parent: this,
                })
                .onOk(() => {
-                  console.log('ok')
                })
                .onCancel(() => {
-                  console.log('cancel')
                })
                .onDismiss(() => {
-                  console.log('ok or cancel')
                   this.showCreatePage = false
                })
          }
@@ -83,8 +81,5 @@ export default {
       ProfileMenu: require('components/Toolbar/ProfileMenu.vue').default,
    },
 
-   beforeMount() {
-      this.spaceId = this.$route.params.spaceId
-   },
 }
 </script>

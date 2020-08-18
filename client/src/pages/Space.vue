@@ -1,92 +1,100 @@
 <template>
    <q-page padding>
-      <q-splitter v-model="split">
-         <!-- Left Menu -->
-         <template v-slot:before>
-            <div class="q-pa-sm text-grey-9 text-body2">
-               <q-list padding>
-                  <q-item>
-                     <q-item-section avatar>
-                        <q-avatar square rounded :color="handleIconColor()" :icon="space.icon" size="md" text-color="white" />
-                     </q-item-section>
-                     <q-item-section>
-                        <q-item-label class="text-subtitle1">{{space.name}}</q-item-label>
-                     </q-item-section>
-                  </q-item>
-
-                  <!-- Space Menu -->
-                  <q-item
-                     :active="menuSelected === index"
-                     active-class="text-bold text-primary"
-                     clickable
-                     :key="index"
-                     v-for="(m, index) in menu"
-                     v-ripple
-                     @click="() => onClickMenu(index)"
-                  >
-                     <template v-if="m.icon">
+      <template v-if="loading"></template>
+      <template v-else>
+         <q-splitter v-model="split">
+            <!-- Left Menu -->
+            <template v-slot:before>
+               <div class="q-pa-sm text-grey-9 text-body2">
+                  <q-list padding>
+                     <q-item>
                         <q-item-section avatar>
-                           <q-icon :name="m.icon" size="sm" />
+                           <q-avatar square rounded :color="handleIconColor(space)" :icon="handleIcon(space)" size="md"
+                                     text-color="white"/>
                         </q-item-section>
+                        <q-item-section>
+                           <q-item-label class="text-subtitle1" :class="handleText(space)">{{ space.name }}</q-item-label>
+                        </q-item-section>
+                     </q-item>
+
+                     <!-- Space Menu -->
+                     <template>
+                        <q-item
+                           :active="menuSelected === 0"
+                           active-class="text-bold text-primary"
+                           clickable
+                           v-ripple
+                           @click="() => onClickMenu(0)"
+                        >
+                           <q-item-section avatar>
+                              <q-icon name="sort" size="sm"/>
+                           </q-item-section>
+                           <q-item-section>
+                              <q-item-label>Overview</q-item-label>
+                           </q-item-section>
+                        </q-item>
+
+                        <q-item
+                           :active="menuSelected === 1"
+                           active-class="text-bold text-primary"
+                           clickable
+                           :disable="!mxAuthorized('settings')"
+                           v-ripple
+                           @click="() => onClickMenu(1)"
+                        >
+                           <q-item-section avatar>
+                              <q-icon name="settings" size="sm"/>
+                           </q-item-section>
+                           <q-item-section>
+                              <q-item-label>Settings</q-item-label>
+                           </q-item-section>
+                        </q-item>
                      </template>
-                     <q-item-section>
-                        <q-item-label>{{ m.label }}</q-item-label>
-                     </q-item-section>
-                  </q-item>
 
-                  <!-- Page Tree -->
-                  <div class="q-mt-lg">
-                     <q-tree
-                        default-expand-all
-                        no-nodes-label="No pages found"
-                        no-results-label="No matches found"
-                        :nodes="pageTree"
-                        node-key="label"
-                        selected-color="primary"
-                        :selected.sync="pageSelected"
-                     />
-                  </div>
-               </q-list>
-            </div>
-         </template>
+                     <!-- Page Tree -->
+                     <template v-if="mxAuthorized('read')">
+                     <div class="q-mt-lg">
+                        <q-tree
+                           ref="pageTree"
+                           default-expand-all
+                           no-nodes-label="No pages found"
+                           no-results-label="No matches found"
+                           :nodes="pageTree"
+                           node-key="label"
+                           selected-color="primary"
+                           :selected.sync="pageSelected"
+                        />
+                     </div>
+                     </template>
 
-         <!-- Page -->
-         <template v-slot:after>
-            <router-view />
-         </template>
-      </q-splitter>
+                     <template v-else>
+                        <div class="q-mt-lg text-italic">No Page Access</div>
+                     </template>
+                  </q-list>
+               </div>
+            </template>
+
+            <!-- Page -->
+            <template v-slot:after>
+               <router-view/>
+            </template>
+         </q-splitter>
+      </template>
    </q-page>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 import { arrayToTree } from 'src/helpers/sort'
+import mxAuthorizations from 'src/mixins/mxAuthorizations'
+
+import * as derive from 'src/helpers/derive'
 
 export default {
    data() {
       return {
-         menu: [
-            {
-               label: 'Overview',
-               icon: 'sort',
-               to: {
-                  name: 'space-overview',
-                  params: { spaceId: this.$route.params.spaceId }
-               }
-            },
-            {
-               label: 'Settings',
-               icon: 'settings',
-               to: {
-                  name: 'space-settings',
-                  params: {
-                     spaceId: this.$route.params.spaceId,
-                     initData: () => this.initData(),
-                  }
-               }
-            },
-         ],
+         loading: false,
          menuSelected: 0,
          split: 20,
          space: {},
@@ -99,31 +107,60 @@ export default {
 
    computed: {
       ...mapGetters([
+         'spaces/space',
          'spaces/sorted',
          'pages/sorted',
          'pages/page',
          'pages/pageByName',
       ]),
+      ...mapState('spaces', ['items']),
+
+      menu() {
+         let spaceId = this.$route.params.spaceId
+
+         return [
+            {
+               label: 'Overview',
+               icon: 'sort',
+               to: {
+                  name: 'space-overview',
+                  params: { spaceId },
+               },
+            },
+            {
+               label: 'Settings',
+               icon: 'settings',
+               to: {
+                  name: 'space-settings',
+                  params: { spaceId },
+               },
+            },
+         ]
+      },
    },
 
+   mixins: [mxAuthorizations],
+
    methods: {
-      ...mapActions(['spaces/getSpace']),
-
-      //TODO mixin candidate
-      handleIconColor(s) {
-         if (this.space.private) {
-            return 'secondary'
-         } else {
-            return 'primary'
-         }
-      },
-
       async initData() {
+         this.loading = true
          let spaceId = this.$route.params.spaceId
-         let space = await this['spaces/getSpace'](spaceId)
+
+         this.menu.map((item, idx) => {
+            if (item.to.name === this.$route.name) {
+               this.menuSelected = idx
+               this.loading = false
+               return false
+            }
+         })
+         this.pageSelected = null
+
+         let space = await this['spaces/space'](spaceId)
          if (space) {
             this.space = space
          } else {
+            this.loading = false
+            await this.$router.replace('/invalid')
             return false
          }
 
@@ -144,51 +181,67 @@ export default {
                   this.page = page
                   this.menuSelected = page.id
                   this.pageSelected = page.name
+                  this.loading = false
                   return false
                }
             })
          }
+         this.loading = false
+      },
+
+      handleText(s) {
+         let properties = derive.itemProperties(s)
+         return properties.text
+      },
+
+      handleIcon(s) {
+         let properties = derive.itemProperties(s)
+         return properties.icon
+      },
+
+      handleIconColor(s) {
+         let properties = derive.itemProperties(s)
+         return properties.bgColor
       },
 
       onClickMenu(index) {
          this.menuSelected = index
+         this.pageSelected = null
       },
    },
 
    watch: {
-      '$route': function() {
-         this.initData()
+      '$route': async function() {
+         await this.initData()
       },
 
-      menuSelected: function(after, before) {
+      menuSelected: function(value) {
          let spaceId = this.$route.params.spaceId
 
-         if (typeof after === 'number') {
-            let route = this.menu[after].to
+         if (typeof value === 'number') {
+            let route = this.menu[value].to
             this.$router.push(route)
          } else {
-            this.$router.push({ name: 'page', params: { spaceId, pageId: after } })
+            this.$router.push({ name: 'page', params: { spaceId, pageId: value } })
          }
       },
 
-      pageSelected: function(after, before) {
-         if (!after) {
-            this.pageSelected = before
+      pageSelected: function(value) {
+         if (!value) {
             return false
          }
-
          let pageId = this.$route.params.pageId
          let spaceId = this.$route.params.spaceId
-         let page = this['pages/pageByName'](spaceId, after)
+         let page = this['pages/pageByName'](spaceId, value)
          if (pageId !== page.id) {
             this.menuSelected = page.id
          }
       },
    },
 
-   beforeMount() {
-      this.initData()
-   }
+   async beforeMount() {
+      await this.initData()
+   },
 }
 </script>
 

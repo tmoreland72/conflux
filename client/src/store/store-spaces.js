@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import merge from 'lodash/merge'
 
 import * as api from 'src/helpers/api'
 import * as time from 'src/helpers/time'
 import * as derive from 'src/helpers/derive'
 import * as sort from 'src/helpers/sort'
+import * as storage from 'src/services/storage'
 
 const state = {
    items: {},
@@ -25,14 +25,24 @@ const mutations = {
 }
 
 const getters = {
+   space: (state) => (spaceId) => {
+      return state.items[spaceId]
+   },
+
    sorted: (state) => {
       return sort.sortObject({...state.items}, ['name'])
    },
 
-   starred: (state, getters) => {
+   noArchives: (state, getters) => {
+      let items = getters.sorted
+      return sort.filterArchived(items)
+   },
+
+   starred: (state, getters, rootState) => {
+      let loggedIn = rootState.auth.loggedIn
       let personal = []
-      getters.sorted.map(item => {
-         if (item.starred) {
+      getters.noArchives.map(item => {
+         if (item.starred && item.starred.includes(loggedIn.uid)) {
             personal.push(item)
          }
       })
@@ -41,7 +51,7 @@ const getters = {
 
    personal: (state, getters) => {
       let personal = []
-      getters.sorted.map(item => {
+      getters.noArchives.map(item => {
          if (item.private) {
             personal.push(item)
          }
@@ -51,7 +61,7 @@ const getters = {
 
    shared: (state, getters) => {
       let personal = []
-      getters.sorted.map(item => {
+      getters.noArchives.map(item => {
          if (!item.private) {
             personal.push(item)
          }
@@ -59,23 +69,19 @@ const getters = {
       return personal
    },
 
-   archived: (state) => {
-      let items = {...state.items}
-      if (!items) return []
-      let sorted = []
-      Object.keys(items).map(key => {
-         if (items[key].active === false) {
-            sorted.push(items[key])
-         }
-      })
-      return sorted
-   }
+   archives: (state, getters) => {
+      let items = getters.sorted
+      return sort.filterArchived(items, 'only')
+   },
+
 }
 
 const actions = {
    async getSpaces({ commit }) {
+      if (!storage.has('session', 'session')) return false
+      let loggedIn = storage.get('session', 'session')
       try {
-         let items = await api.getItems('0NyxKqBtD37vYqLlkDfa', 'spaces')
+         let items = await api.getSpaces(loggedIn)
          if (items.success) {
             let data = {}
             items.data.map(space => {
@@ -90,9 +96,10 @@ const actions = {
       }
    },
 
-   async getSpace({ state }, id) {
+   async getSpace({ state, rootState }, props) {
+      const { tenantId, id } = props
       try {
-         let item = await api.getItem('0NyxKqBtD37vYqLlkDfa', 'spaces', id)
+         let item = await api.getItem(tenantId, 'spaces', id)
          if (item.success) {
             return item.data
          } else {
@@ -103,35 +110,44 @@ const actions = {
       }
    },
 
-   async addSpace({ commit, dispatch, state }, item) {
+   async addSpace({ dispatch, state, rootState }, item) {
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
+      let createdBy = loggedIn.uid
       item.key = await derive.key({...state.items}, item, 'name')
       item.id = derive.uuid({})
       item.active = true
-      item.starred = true
+      item.starred = []
+      item.starred.push(loggedIn.uid)
       item.created = time.currentTime()
       item.overview = 'Overview\n==='
+      item.tenantId = tenantId
+      item.ownerId = createdBy
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'spaces',
-         createdBy: '1234ABCD',
+         createdBy,
          item,
       }
       try {
          await api.createItem(payload)
-         await commit('ADD_SPACE', item)
-         return true
+         await dispatch('getSpaces')
+         return item.id
       } catch (err) {
          console.error('store-spaces', 'actions-addSpace', err)
          return false
       }
    },
 
-   async updateSpace({ commit, dispatch, state }, item) {
+   async updateSpace({ commit, dispatch, state, rootState }, item) {
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
+      let updatedBy = loggedIn.uid
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'spaces',
          collectionId: item.id,
-         updatedBy: '1234ABCD',
+         updatedBy,
          updates: item
       }
       await Promise.all([
@@ -147,11 +163,13 @@ const actions = {
          })
    },
 
-   async deleteSpace({ commit, dispatch, state }, id)  {
+   async deleteSpace({ commit, dispatch, state, rootState }, id)  {
       // TODO: Delete space pages
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
 
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'spaces',
          collectionId: id,
       }

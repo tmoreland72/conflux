@@ -50,4 +50,32 @@ const uuid = props => {
    return prefix + uid
 }
 
-export { key, uuid }
+const itemProperties = item => {
+   if (!item.active) {
+      return {
+         bgColor: 'grey-5',
+         text: 'text-italic',
+         icon: 'work_off'
+      }
+   }
+
+   if (item.private) {
+      return {
+         bgColor: 'secondary',
+         text: '',
+         icon: 'visibility_off'
+      }
+
+   } else {
+      return {
+         bgColor: 'primary',
+         text: '',
+         icon: 'folder_shared'
+      }
+
+   }
+
+}
+
+
+export { key, uuid, itemProperties }

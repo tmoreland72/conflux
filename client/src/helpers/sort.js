@@ -53,10 +53,13 @@ const filterArray = (items, filterBy, filterFields = []) => {
    return uniq(res)
 }
 
-const filterArchived = (items) => {
+const filterArchived = (items, choice = 'none' ) => {
    let res = []
    items.map(item => {
-      if (item.status !== 'Archived') {
+      if (choice === 'none' && item.active) {
+         res.push(item)
+      }
+      if (choice === 'only' && !item.active) {
          res.push(item)
       }
    })

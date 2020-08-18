@@ -2,7 +2,7 @@
    <q-page padding>
       <div class="q-mt-lg row justify-between">
          <div class="text-h5 text-grey-9">Spaces Directory</div>
-         <q-btn class="text-grey-7" flat label="Create Space" :to="{ name: 'createSpace' }" no-caps/>
+         <q-btn color="primary" label="Create Space" :to="{ name: 'createSpace' }" no-caps/>
       </div>
 
       <q-separator class="q-mt-md"/>
@@ -31,7 +31,6 @@
 
             <template v-slot:after>
                <div class="q-pa-md text-grey-9">
-                  <div class="text-h6">All Spaces</div>
                   <div class="q-mt-lg">
                      <space-list view="list" :getter="menu[selectedMenu].filter" />
                   </div>
@@ -50,7 +49,7 @@ export default {
          menu: [
             {
                label: 'All',
-               filter: 'sorted',
+               filter: 'noArchives',
             },
             {
                label: 'Shared',
@@ -61,8 +60,12 @@ export default {
                filter: 'personal',
             },
             {
+               label: 'Starred',
+               filter: 'starred',
+            },
+            {
                label: 'Archived',
-               filter: 'archived',
+               filter: 'archives',
             },
          ],
          selectedMenu: 0,

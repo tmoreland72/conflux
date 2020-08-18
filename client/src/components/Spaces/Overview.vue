@@ -1,6 +1,8 @@
 <template>
    <div class="q-pa-md">
       <overview-header
+         :spaceName.sync="spaceName"
+         :spaceDescription.sync="spaceDescription"
          :space="space"
          :editMode.sync="editMode"
          :onSave="() => onSave()"
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { Notify } from 'quasar'
 
 import mxKeyActions from 'src/mixins/mxKeyActions'
@@ -51,7 +53,13 @@ export default {
          editMode: false,
          content: '',
          space: {},
+         spaceName: '',
+         spaceDescription: '',
       }
+   },
+
+   computed: {
+      ...mapGetters(['spaces/space']),
    },
 
    mixins: [mxKeyActions],
@@ -59,20 +67,25 @@ export default {
    methods: {
       ...mapActions([
          'spaces/getSpaces',
-         'spaces/getSpace',
          'spaces/updateSpace',
          'spaces/deleteSpace',
       ]),
 
       async initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = await this['spaces/getSpace'](spaceId)
+         let space = await this['spaces/space'](spaceId)
+         if (space) {
+            this.space = space
+         } else {
+            return false
+         }
       },
 
       async onSave() {
          let space = {...this.space}
-         let content = this.content
-         space.overview = content
+         space.overview = this.content
+         space.name = this.spaceName
+         space.description = this.spaceDescription
          await this['spaces/updateSpace'](space)
             .then(async () => {
                Notify.create('Update successful')
@@ -96,7 +109,6 @@ export default {
                Notify.create('Update successful')
                this.editMode = false
                this.initData()
-               //this.$router.push({ name: 'space-overview', params: { spaceId: space.id } })
             })
             .catch(err => {
                console.error('onSave', err)
@@ -176,15 +188,20 @@ export default {
 
       "$route": async function() {
          await this.initData()
-      }
+      },
+
+      space: function(value) {
+         this.spaceName = value.name
+         this.spaceDescription = value.description
+      },
    },
 
    components: {
       OverviewHeader: require('./Header.vue').default,
    },
 
-   beforeMount() {
-      this.initData()
+   async beforeMount() {
+      await this.initData()
    },
 }
 </script>

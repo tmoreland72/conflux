@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { Notify } from 'quasar'
 import mxKeyActions from 'src/mixins/mxKeyActions'
 
@@ -95,6 +95,7 @@ export default {
 
    computed: {
       ...mapGetters([
+         'spaces/space',
          'pages/page'
       ]),
    },
@@ -103,14 +104,13 @@ export default {
 
    methods: {
       ...mapActions([
-         'spaces/getSpace',
          'pages/updatePage',
          'pages/deletePage'
       ]),
 
       initData() {
          let spaceId = this.$route.params.spaceId
-         this.space = this['spaces/getSpace'](spaceId)
+         this.space = this['spaces/space'](spaceId)
          let pageId = this.$route.params.pageId
          this.page = this['pages/page'](pageId)
       },

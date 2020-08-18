@@ -33,11 +33,10 @@ export default {
          this.errorMsg = ''
          authn.register('firebase', this.email, this.password)
          .then(result => {
-            console.log('Register', 'result', result)
             this.$router.replace({ name: 'private' })
          })
          .catch(err => {
-            console.log('Register', 'err', err)
+            console.error('Register', 'err', err)
             this.errorMsg = err.message
          })
       }

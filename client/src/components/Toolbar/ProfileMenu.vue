@@ -1,5 +1,13 @@
 <template>
-   <q-btn color="grey-9" flat round icon="account_circle">
+   <q-btn color="grey-9" flat round>
+      <template v-if="image">
+         <q-avatar size="32px">
+            <q-img :src="image" />
+         </q-avatar>
+      </template>
+      <template v-else>
+         <q-icon name="account_circle" />
+      </template>
       <q-menu>
          <div class="row no-wrap q-pa-md">
             <div class="column q-gutter-sm">
@@ -21,7 +29,19 @@
 </template>
 
 <script>
+import * as storage from 'src/services/storage'
+
 export default {
+   computed: {
+      image() {
+         if (storage.has('session', 'session')) {
+            let session = storage.get('session', 'session')
+            return session.photoUrl
+         } else {
+            return false
+         }
+      }
+   }
 }
 </script>
 

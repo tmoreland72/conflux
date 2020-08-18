@@ -14,7 +14,7 @@
                >
                   <q-card-section class="bg-grey-3">
                      <div class="row justify-between">
-                        <q-avatar square rounded :color="handleIconColor(s)" :icon="s.icon" size="md" text-color="white"/>
+                        <q-avatar square rounded :color="handleIconColor(s)" :icon="handleIcon(s)" size="md" text-color="white"/>
                         <template v-if="handleStarIcon(s)">
                            <q-icon color="yellow-8" :name="handleStarIcon(s)" size="xs"/>
                         </template>
@@ -22,9 +22,9 @@
                   </q-card-section>
                   <q-card-section>
                      <div class="row justify-between items-center">
-                        <div class="text-body2 text-grey-9">{{s.name}}</div>
+                        <div class="text-body2 text-grey-9" :class="handleText(s)">{{s.name}}</div>
                      </div>
-                     <div class="text-caption text-grey-7">{{s.description}}</div>
+                     <div class="text-caption text-grey-7" :class="handleText(s)">{{s.description}}</div>
                   </q-card-section>
                </q-card>
             </div>
@@ -41,10 +41,15 @@
                   :to="{ name: 'space-overview', params: { spaceId: s.id } }"
                >
                   <q-item-section avatar>
-                     <q-avatar square rounded :color="handleIconColor(s)" :icon="s.icon" size="md" text-color="white" />
+                     <q-avatar square rounded :color="handleIconColor(s)" :icon="handleIcon(s)" size="md" text-color="white" />
                   </q-item-section>
                   <q-item-section>
-                        <q-item-label class="text-body2 text-grey-9">{{s.name}}</q-item-label>
+                        <q-item-label
+                           class="text-body2 text-grey-9"
+                           :class="handleText(s)"
+                        >
+                           {{s.name}}
+                        </q-item-label>
                         <q-item-label class="text-caption text-grey-7">{{s.description}}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
@@ -67,7 +72,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+
+import * as derive from 'src/helpers/derive'
 
 export default {
    props: {
@@ -77,31 +84,41 @@ export default {
       },
       getter: {
          type: String,
-         default: 'sorted',
+         default: 'noArchives',
       },
    },
 
    computed: {
+      ...mapState('auth',['loggedIn']),
+
       ...mapGetters([
          'spaces/sorted',
+         'spaces/archives',
+         'spaces/noArchives',
          'spaces/starred',
          'spaces/personal',
          'spaces/shared',
-         'spaces/archived',
       ])
    },
 
    methods: {
+      handleText(s) {
+         let properties = derive.itemProperties(s)
+         return properties.text
+      },
+
+      handleIcon(s) {
+         let properties = derive.itemProperties(s)
+         return properties.icon
+      },
+
       handleIconColor(s) {
-         if (s.private) {
-            return 'secondary'
-         } else {
-            return 'primary'
-         }
+         let properties = derive.itemProperties(s)
+         return properties.bgColor
       },
 
       handleStarIcon(s) {
-         if (s.starred) {
+         if (s.starred && s.starred.includes(this.loggedIn.uid)) {
             return 'star'
          } else {
             return null

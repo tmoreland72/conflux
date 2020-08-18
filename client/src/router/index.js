@@ -18,7 +18,10 @@ export default function (/* { store, ssrContext } */) {
   Router.beforeEach(async (to, from, next) => {
     const isPrivate = to.matched.some(record => record.meta.isPrivate)
     const session = storage.get('session', 'session')
-    console.log('router', 'session', session)
+
+    if (from.path === '/' && isPrivate && !session) {
+      storage.set('local', 'redirect', to)
+    }
 
     if (isPrivate && !session) {
       next({ name: 'login' })

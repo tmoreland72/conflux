@@ -69,7 +69,6 @@ export default {
                },
             }
             let result = await this['auth/login'](payload)
-            console.log('Phone', 'handleRequest', 'result', result)
             if (result.error) {
                this.errorMsg = result.message
             } else {
@@ -77,7 +76,7 @@ export default {
             }
 
          } catch (err) {
-            console.log('Login', 'err', err)
+            console.error('Login', 'err', err)
             this.errorMsg = err
          }
       },

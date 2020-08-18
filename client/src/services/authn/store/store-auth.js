@@ -1,5 +1,6 @@
 import * as authn from 'src/services/authn'
 import * as storage from 'src/services/storage'
+import * as verify from 'src/helpers/verify'
 import { fireBase } from 'boot/firebase'
 
 const state = {
@@ -25,7 +26,7 @@ const actions = {
          storage.set('session', 'session', 'pending')
          return authn.login(plugin, { method, credentials })
       } catch (err) {
-         console.log('store-auth login', 'err', err)
+         console.error('store-auth login', 'err', err)
          return err
       }
    },
@@ -35,13 +36,38 @@ const actions = {
       return true
    },
 
-   handleAuthStateChange: async ({ commit }) => {
-      console.group('handleAuthStateChange')
+   handleAuthStateChange: async ({ commit, dispatch }) => {
       return new Promise(async (resolve, reject) => {
          await fireBase.auth().onAuthStateChanged(async session => {
             if (session) {
-               console.log('session', session)
-
+               //let v = await verify.emailAddress(session.email)
+               let v = {
+                  "email":"troy@morelands.net",
+                  "did_you_mean":"",
+                  "user":"troy",
+                  "domain":"morelands.net",
+                  "format_valid":true,
+                  "mx_found":true,
+                  "smtp_check":true,
+                  "catch_all":null,
+                  "role":false,
+                  "disposable":false,
+                  "free":false,
+                  "score":0.96
+               }
+               let domain
+               if (v.format_valid && v.mx_found && !v.disposable) {
+                  if (v.free) {
+                     domain = session.uid
+                  } else {
+                     let emailParts = session.email.split('@')
+                     domain = emailParts[1]
+                  }
+               } else {
+                  reject('Invalid email address')
+               }
+               //TODO Link to User and pull in User properties
+               //TODO Create User & Tenant if they don't exist
                let user = {
                   displayName: session.displayName ?
                      session.displayName : session.email ?
@@ -51,6 +77,8 @@ const actions = {
                   phoneNumber: session.phoneNumber,
                   photoUrl: session.photoURL,
                   uid: session.uid,
+                  token: session.refreshToken,
+                  tenantId: domain,
                }
                storage.set('session', 'session', user)
                commit('SET_IS_AUTHENTICATED', true)

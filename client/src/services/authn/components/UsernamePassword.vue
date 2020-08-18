@@ -45,7 +45,7 @@ export default {
                await this.$router.replace({ name: 'private' })
             }
          } catch (err) {
-            console.log('Login', 'err', err)
+            console.error('Login', 'err', err)
             this.errorMsg = err
          }
       },

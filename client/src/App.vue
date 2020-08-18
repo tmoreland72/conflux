@@ -1,14 +1,27 @@
 <template>
-  <div id="q-app">
-    <router-view />
-  </div>
+   <div>
+      <template v-if="loading"></template>
+      <template v-else>
+         <div id="q-app">
+            <router-view/>
+         </div>
+      </template>
+   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import { Loading } from 'quasar'
 
+import * as storage from 'src/services/storage'
+
 export default {
+   data() {
+      return {
+         loading: false,
+      }
+   },
+
    methods: {
       ...mapActions([
          'auth/handleAuthStateChange',
@@ -28,22 +41,28 @@ export default {
             messageColor: 'white',
             backgroundColor: 'primary',
             message: 'Loading data...',
-            spinnerSize: '140'
+            spinnerSize: '140',
          })
          await Promise.all([
-            this['spaces/getSpaces'](),
-            this['pages/getPages'](),
-         ])
-            .finally(() => {
+               await this['spaces/getSpaces'](),
+               await this['pages/getPages'](),
+            ])
+            .then(() => {
+               if (storage.has('local', 'redirect') && storage.has('session', 'session')) {
+                  let redirect = storage.get('local', 'redirect')
+                  storage.remove('local', 'redirect')
+                  this.$router.replace(redirect)
+               }
                Loading.hide()
                this.loading = false
             })
-      }
+      },
    },
 
    async beforeMount() {
+      this.loading = true
       await this.onAuthStateChange()
       await this.initData()
-   }
+   },
 }
 </script>

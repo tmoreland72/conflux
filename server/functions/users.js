@@ -164,7 +164,6 @@ exports.getSubcollectionItems = async (req, res) => {
 }
 
 exports.addSubcollectionItem = async (req, res) => {
-   console.log('addSubcollectionItem')
    const { createdBy, item } = req.body
    const userId = req.params.userId
    const subcollection = req.params.subcollection

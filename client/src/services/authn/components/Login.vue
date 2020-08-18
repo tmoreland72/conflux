@@ -1,22 +1,26 @@
 <template>
    <q-page class="flex flex-center">
-      <q-card style="width: 100%; max-width: 320px;">
+      <q-card style="width: 100%; max-width: 50%;">
          <q-img
-            src="https://cdn.quasar.dev/img/parallax2.jpg"
+            src="/organized.jpg"
             basic
          >
-            <div class="absolute-bottom text-h6 text-center">
-               Log In
+            <div class="absolute-bottom text-center">
+               <div class="column justify-center items-center">
+                  <q-icon color="accent" name="topic" size="128px"/>
+                  <div class="text-h4">Welcome to Conflux</div>
+                  <div class="text-caption">Select your preferred login method</div>
+               </div>
             </div>
          </q-img>
          <q-card-section class="bg-grey-2">
-            <div class="q-mt-sm text-body2 text-grey-5">Application Login</div>
-            <div class="q-mt-xs row items-center q-gutter-md">
-<!--
+            <div class="q-mt-sm text-body2 text-grey-5">Login Options</div>
+            <div class="q-mt-xs row justify-around items-center q-gutter-md">
                <q-btn
                   icon="fab fa-facebook"
                   padding="md"
                   round
+                  size="xl"
                   style="background-color: #3b5998; color: white;"
                   @click="onClick('Facebook')"
                >
@@ -24,12 +28,12 @@
                      Facebook
                   </q-tooltip>
                </q-btn>
--->
 
                <q-btn
                   icon="fab fa-github"
                   padding="md"
                   round
+                  size="xl"
                   style="background-color: #333; color: #fafafa;"
                   @click="onClick('GitHub')"
                >
@@ -43,6 +47,7 @@
                   icon="fab fa-google"
                   padding="md"
                   round
+                  size="xl"
                   style="background-color: #34a853;"
                   @click="onClick('Google')"
                >
@@ -51,11 +56,11 @@
                   </q-tooltip>
                </q-btn>
 
-<!--
                <q-btn
                   icon="fab fa-twitter"
                   padding="md"
                   round
+                  size="xl"
                   style="background-color: #1da1f2; color: #f5f8fa;"
                   @click="onClick('Twitter')"
                >
@@ -63,10 +68,9 @@
                      Twitter
                   </q-tooltip>
                </q-btn>
--->
             </div>
          </q-card-section>
-
+<!--
          <q-separator/>
 
          <q-card-section class="bg-grey-1">
@@ -115,7 +119,7 @@
                   </q-tooltip>
                </q-btn>
             </div>
-         </q-card-section>
+         </q-card-section>-->
       </q-card>
    </q-page>
 </template>
@@ -144,7 +148,7 @@ export default {
                this.errorMsg = result.message
             }
          } catch (err) {
-            console.log('Login', 'err', err)
+            console.error('Login', 'err', err)
             this.errorMsg = err
          }
       },

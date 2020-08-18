@@ -96,9 +96,13 @@ const getters = {
 }
 
 const actions = {
-   async getPages({ commit }) {
+   async getPages({ commit, rootState, rootGetters }) {
+      let loggedIn = rootState.auth.loggedIn
+      if (!loggedIn) return false
+      let spaces = await rootGetters['spaces/sorted']
+      if (!spaces) return false
       try {
-         let items = await api.getItems('0NyxKqBtD37vYqLlkDfa', 'pages')
+         let items = await api.getPages(loggedIn, spaces)
          if (items.success) {
             let data = {}
             items.data.map(page => {
@@ -113,20 +117,25 @@ const actions = {
       }
    },
 
-   async getPage({ state }, id) {
-      try {
-         let item = await api.getItem('0NyxKqBtD37vYqLlkDfa', 'pages', id)
-         if (item.success) {
-            return item.data
-         } else {
-            return {}
-         }
-      } catch (err) {
-         console.error('store-pages', 'actions-getPage', err)
-      }
-   },
+   //async getPage({ state, rootState }, id) {
+   //   let loggedIn = rootState.auth.loggedIn
+   //   let tenantId = loggedIn.tenantId
+   //   try {
+   //      let item = await api.getItem(tenantId, 'pages', id)
+   //      if (item.success) {
+   //         return item.data
+   //      } else {
+   //         return {}
+   //      }
+   //   } catch (err) {
+   //      console.error('store-pages', 'actions-getPage', err)
+   //   }
+   //},
 
-   async addPage({ commit, dispatch, state }, item) {
+   async addPage({ commit, dispatch, state, rootState }, item) {
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
+      let createdBy = loggedIn.uid
       let keys = Object.keys(item)
       item.key = await derive.key({...state.items}, item, 'name')
       if (!keys.includes('id')) item.id = derive.uuid({})
@@ -134,9 +143,9 @@ const actions = {
       if (!keys.includes('active')) item.active = true
       if (!keys.includes('starred')) item.starred = true
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'pages',
-         createdBy: '1234ABCD',
+         createdBy,
          item,
       }
       try {
@@ -149,12 +158,15 @@ const actions = {
       }
    },
 
-   async updatePage({ commit, dispatch, state }, item) {
+   async updatePage({ commit, dispatch, state, rootState }, item) {
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
+      let updatedBy = loggedIn.uid
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'pages',
          collectionId: item.id,
-         updatedBy: '1234ABCD',
+         updatedBy,
          updates: item
       }
       await Promise.all([
@@ -170,11 +182,13 @@ const actions = {
          })
    },
 
-   async deletePage({ commit, dispatch, state }, id)  {
+   async deletePage({ commit, dispatch, state, rootState }, id)  {
       // TODO: Delete space pages
+      let loggedIn = rootState.auth.loggedIn
+      let tenantId = loggedIn.tenantId
 
       let payload = {
-         tenantId: '0NyxKqBtD37vYqLlkDfa',
+         tenantId,
          collection: 'pages',
          collectionId: id,
       }

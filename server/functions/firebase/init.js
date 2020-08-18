@@ -1,9 +1,10 @@
+
 const admin = require("firebase-admin")
-const serviceAccount = require("../google-service-account.json")
+const serviceAccount = require(process.env.FIREBASE_SERVICEACCOUNT)
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount),
-   databaseURL: "https://conflux-bacaa.firebaseio.com",
-   storageBucket: "conflux-bacaa.appspot.com",
+   databaseURL: process.env.FIREBASE_DATABASEURL,
+   storageBucket: process.env.FIREBASE_STORAGEBUCKET,
 })
 exports.db = admin.firestore()
 exports.auth = admin.auth()

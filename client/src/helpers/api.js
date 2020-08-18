@@ -14,6 +14,7 @@ const getItems = async (tenantId, collection, collectionId, subcollection) => {
          Accept: 'application/json',
       },
    }
+
    try {
       let result = await http(config)
       if (result.status === 200) {
@@ -164,10 +165,74 @@ const deleteItem = async props => {
    }
 }
 
+const getSpaces = async (user) => {
+   let url = BASEURL + '/spaces/retrieve'
+   let config = {
+      method: 'POST',
+      url,
+      headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+      },
+      data: user,
+   }
+
+   try {
+      let result = await http(config)
+      if (result.status === 200) {
+         return {
+            success: true,
+            data: result.data,
+         }
+      } else {
+         return result.data
+      }
+   } catch (err) {
+      console.error('api', 'getSpaces', 'error', err)
+      return {
+         success: false,
+         result: err,
+      }
+   }
+}
+
+const getPages = async (user, spaces) => {
+   let url = BASEURL + '/pages/retrieve'
+   let config = {
+      method: 'POST',
+      url,
+      headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+      },
+      data: { REQUESTER: user, SPACES: spaces },
+   }
+
+   try {
+      let result = await http(config)
+      if (result.status === 200) {
+         return {
+            success: true,
+            data: result.data,
+         }
+      } else {
+         return result.data
+      }
+   } catch (err) {
+      console.error('api', 'getPages', 'error', err)
+      return {
+         success: false,
+         result: err,
+      }
+   }
+}
+
 export {
    getItems,
    getItem,
    createItem,
    updateItem,
-   deleteItem
+   deleteItem,
+   getSpaces,
+   getPages,
 }

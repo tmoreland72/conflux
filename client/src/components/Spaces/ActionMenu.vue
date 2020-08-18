@@ -5,6 +5,7 @@
             align="left"
             class="full-width"
             color="grey-9"
+            :disable="!mxAuthorized('archive')"
             flat
             :label="space.active ? 'Archive Space' : 'Restore Space'"
             no-caps
@@ -15,6 +16,7 @@
             align="left"
             class="full-width"
             color="grey-9"
+            :disable="!mxAuthorized('delete')"
             flat
             label="Delete Space"
             no-caps
@@ -27,13 +29,13 @@
 
 <script>
 
-import { mapActions } from 'vuex'
+import mxAuthorizations from 'src/mixins/mxAuthorizations'
 
 export default {
    props: {
       space: {
          type: Object,
-         required: true
+         required: true,
       },
       onArchive: {
          type: Function,
@@ -44,6 +46,8 @@ export default {
          required: true,
       },
    },
+
+   mixins: [mxAuthorizations],
 
    methods: {
       async onClickArchive() {

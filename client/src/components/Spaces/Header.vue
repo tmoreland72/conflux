@@ -1,6 +1,28 @@
 <template>
    <div class="row justify-between items-center text-grey-9">
-      <div class="q-pl-lg text-h5">{{space.name}}</div>
+      <template v-if="editMode">
+         <div class="column q-gutter-md">
+            <q-input
+               :value="spaceName"
+               outlined
+               label="Name"
+               @input="(value) => onInput('spaceName', value)"
+            />
+            <q-input
+               :value="spaceDescription"
+               outlined
+               label="Description"
+               @input="(value) => onInput('spaceDescription', value)"
+            />
+         </div>
+      </template>
+
+      <template v-else>
+         <div class="column q-gutter-sm">
+            <div class="q-pl-lg text-h5">{{ spaceName }}</div>
+            <div class="q-pl-lg text-body2 ellipsis">{{ spaceDescription }}</div>
+         </div>
+      </template>
 
       <div class="row q-gutter-md">
          <template v-if="editMode">
@@ -9,10 +31,37 @@
          </template>
 
          <template v-else>
-            <q-btn dense flat round icon="edit" @click="onClickEdit()"/>
-            <q-btn dense flat round :icon="handleStarIcon()" :loading="loading.star" no-caps @click="onClickStar()"/>
-            <q-btn dense flat round icon="visibility" @click="onClickVisibility()"/>
-            <q-btn color="primary" label="Share" no-caps @click="onClickShare()" />
+            <q-btn
+               dense
+               :disable="!mxAuthorized('update')"
+               flat
+               round
+               icon="edit"
+               @click="onClickEdit()"
+            />
+
+            <q-btn
+               dense
+               flat
+               round
+               :icon="handleStarIcon()"
+               :loading="loading.star"
+               no-caps
+               @click="onClickStar()"
+            />
+
+            <q-btn
+               dense
+               :disable="!mxAuthorized('admin')"
+               flat
+               :icon="handleVisibilityIcon()"
+               :loading="loading.visibility"
+               round
+               @click="onClickVisibility()"
+            >
+               <q-tooltip>{{ handleVisibilityTooltip() }}</q-tooltip>
+            </q-btn>
+
             <action-menu
                :space="space"
                :onArchive="() => onArchive()"
@@ -24,11 +73,20 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { Notify } from 'quasar'
+import mxAuthorizations from 'src/mixins/mxAuthorizations'
 
 export default {
    props: {
+      spaceName: {
+         type: String,
+         required: true,
+      },
+      spaceDescription: {
+         type: String,
+         require: true,
+      },
       space: {
          type: Object,
          required: true,
@@ -55,22 +113,21 @@ export default {
          loading: {
             save: false,
             star: false,
+            visibility: false,
          },
       }
    },
 
+   computed: {
+      ...mapState('auth', ['loggedIn']),
+   },
+
+   mixins: [mxAuthorizations],
+
    methods: {
       ...mapActions([
-         'spaces/updateSpace'
+         'spaces/updateSpace',
       ]),
-
-      handleStarIcon() {
-         if (this.space.starred) {
-            return 'star'
-         } else {
-            return 'star_border'
-         }
-      },
 
       onClickCancel() {
          this.$emit('update:editMode', false)
@@ -86,36 +143,82 @@ export default {
          this.loading.save = false
       },
 
+      onInput(field, value) {
+         this.$emit('update:' + field, value)
+      },
+
+      handleStarIcon() {
+         if (this.space.starred && this.space.starred.includes(this.loggedIn.uid)) {
+            return 'star'
+         } else {
+            return 'star_border'
+         }
+      },
+
       async onClickStar() {
+         let loggedIn = { ...this.loggedIn }
          this.loading.star = true
+         let starred = this.space.starred ? [...this.space.starred] : []
+         if (starred.includes(loggedIn.uid)) {
+            let idx = starred.indexOf(loggedIn.uid)
+            starred.splice(idx, 1)
+         } else {
+            starred.push(loggedIn.uid)
+         }
+
          let space = {
             id: this.space.id,
-            starred: !this.space.starred
+            starred,
          }
          await this['spaces/updateSpace'](space)
-         .then(() => {
-            Notify.create('Update successful')
-         })
-         .catch(() => {
-            Notify.create('Update failed')
-         })
-         .finally(() => {
-            this.initData()
-            this.loading.star = false
-         })
+            .then(() => {
+               Notify.create('Update successful')
+            })
+            .catch(() => {
+               Notify.create('Update failed')
+            })
+            .finally(() => {
+               this.loading.star = false
+            })
       },
 
-      onClickShare() {
-         Notify.create('Coming soon...')
+      handleVisibilityIcon() {
+         if (this.space.private) {
+            return 'visibility_off'
+         } else {
+            return 'visibility'
+         }
       },
 
-      onClickVisibility() {
-         Notify.create('Coming soon...')
-      }
+      handleVisibilityTooltip() {
+         if (this.space.private) {
+            return 'Click to remove Private.  Manage permissions in Settings.'
+         } else {
+            return 'Click to make Private. Only Space Owner will have access.'
+         }
+      },
+
+      async onClickVisibility() {
+         this.loading.visibility = true
+         let space = {
+            id: this.space.id,
+            private: !this.space.private,
+         }
+         await this['spaces/updateSpace'](space)
+            .then(() => {
+               Notify.create('Update successful')
+            })
+            .catch(() => {
+               Notify.create('Update failed')
+            })
+            .finally(() => {
+               this.loading.visibility = false
+            })
+      },
    },
 
    components: {
-      ActionMenu: require("./ActionMenu.vue").default,
+      ActionMenu: require('./ActionMenu.vue').default,
    },
 
 }

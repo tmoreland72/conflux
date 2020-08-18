@@ -1,3 +1,12 @@
+# Version 34 (2020-08-18)
+
+## Features
+*  Share Space with Domain #31 ([f6b747](https://github.com/34fame/conflux/commit/f6b747fda9eaa679a045097f18a9537b19c2ff1f))
+*  Added Firebase authentication ([c93938](https://github.com/34fame/conflux/commit/c939384eeab4c8b32e74f01ee1e0058bdf266b58))
+
+## Chores
+*  Bump to version 34 ([3408d7](https://github.com/34fame/conflux/commit/3408d797117d6d9385f561c3dad5df3b2e823303))
+
 # Version 33 (2020-08-17)
 
 ## Chores

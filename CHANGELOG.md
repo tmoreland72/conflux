@@ -2,10 +2,43 @@
 
 ## Features
 *  Share Space with Domain #31 ([f6b747](https://github.com/34fame/conflux/commit/f6b747fda9eaa679a045097f18a9537b19c2ff1f))
-*  Added Firebase authentication ([c93938](https://github.com/34fame/conflux/commit/c939384eeab4c8b32e74f01ee1e0058bdf266b58))
+*  Share Space with Public #32
+*  Add Space admin authorization
+*  Add Space creation authorization
+*  Add Space read authorization
+*  Add Space update authorization
+*  Add Space archive authorization
+*  Add Space delete authorization
+*  Add API to retrieve Users' Spaces
+*  Add API to retrieve Users' Pages
+*  Derive Space icons based on current state
+*  Add support to update Space name and description
+*  Dynamically associate users with domains (tenancy based on email domain)
+*  Associate Spaces and Pages with domains
+*  Integrate with email verification service to exclude free email services from Domain Sharing
+*  Make starred Spaces User specific
+*  Assign creating User as Space owner
+*  Assign authentication provider photo to User profile
+*  Add Firebase authentication ([c93938](https://github.com/34fame/conflux/commit/c939384eeab4c8b32e74f01ee1e0058bdf266b58))
+*  Enable Logout option in profile menu
+*  Redirect to requested path after authentication
+*  Add Google authentication
+*  Add GitHub authentication
+*  Add Twitter authentication
+*  Add Facebook authentication
 
 ## Chores
 *  Bump to version 34 ([3408d7](https://github.com/34fame/conflux/commit/3408d797117d6d9385f561c3dad5df3b2e823303))
+*  Add support for Firestore collectionGroup queries
+*  Make MainLayout authenticated session aware
+*  Implement dotenv for server
+
+## Fixes
+*  Numerous state and data initialization issues
+*  Resolve issues importing Spaces
+*  Space lists are not properly filtering
+*  Settings tab panels should default to first tab
+
 
 # Version 33 (2020-08-17)
 

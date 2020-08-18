@@ -4,15 +4,48 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { name: 'home', path: '', component: () => import('pages/Index.vue') },
+      {
+        meta: { isPrivate: true },
+        name: 'home',
+        path: '',
+        component: () => import('pages/Index.vue')
+      },
+
+      { name: 'logout', path: 'logout', component: () => import('src/services/authn/components/Logout.vue') },
 
       {
+        name: 'login',
+        path: 'login',
+        component: () => import('src/services/authn/components/Login.vue')
+      },
+
+      {
+        name: 'login-password',
+        path: 'login/password',
+        component: () => import('src/services/authn/components/UsernamePassword.vue')
+      },
+
+      {
+        name: 'login-phone',
+        path: 'login/phone',
+        component: () => import('src/services/authn/components/Phone.vue')
+      },
+
+      {
+        name: 'register',
+        path: 'register',
+        component: () => import('src/services/authn/components/Register.vue')
+      },
+
+      {
+        meta: { isPrivate: true },
         name: 'spaces',
         path: 'spaces',
         component: () => import('pages/Spaces.vue'),
       },
 
       {
+        meta: { isPrivate: true },
         path: 'spaces/:spaceId',
         component: () => import('pages/Space.vue'),
         children: [
@@ -34,9 +67,21 @@ const routes = [
           },
         ]
       },
+      { path: ' ', redirect: { name: 'home' }},
 
-      { name: 'createSpace', path: '/create/space', component: () => import('components/Spaces/Creation/Dialog.vue') },
-      { name: 'createPage', path: '/create/page', component: () => import('components/Pages/Creation/Dialog.vue') },
+      {
+        meta: { isPrivate: true },
+        name: 'createSpace',
+        path: '/create/space',
+        component: () => import('components/Spaces/Creation/Dialog.vue')
+      },
+
+      {
+        meta: { isPrivate: true },
+        name: 'createPage',
+        path: '/create/page',
+        component: () => import('components/Pages/Creation/Dialog.vue')
+      },
 
     ]
   },

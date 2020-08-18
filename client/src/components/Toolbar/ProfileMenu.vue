@@ -13,7 +13,7 @@
 
                <q-separator />
 
-               <q-btn align="left" flat color="grey-9" label="Logout" no-caps />
+               <q-btn align="left" flat color="grey-9" label="Logout" no-caps :to="{name: 'logout' }"/>
             </div>
          </div>
       </q-menu>

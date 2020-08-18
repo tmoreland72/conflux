@@ -22,6 +22,7 @@ const providerTwitter = new firebase.auth.TwitterAuthProvider()
 Vue.prototype.$firebase = fireBase
 
 export {
+   firebase,
    fireBase,
    providerFacebook,
    providerGitHub,

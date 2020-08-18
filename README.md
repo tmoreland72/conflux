@@ -81,12 +81,19 @@ Conflux is __still in development__.  Currently, it is a pet project because I n
 
 ### Built With
 
+#### Client
 - [Vue.js](https://vuejs.org)
 - [Quasar Framework](https://quasar.dev)
 - [QMarkdown Extension](https://quasarframework.github.io/quasar-ui-qmarkdown/docs)
 - [Quasar Dotenv Extension](https://github.com/quasarframework/app-extension-dotenv)
 - [Mermaid Markdown Plugin](https://mermaid-js.github.io/mermaid)
-- [Google Firebase](https://firebase.google.com/)
+
+#### Server
+- NodeJS
+- Express
+- Firebase Functions
+- Firebase Admin SDK
+
 
 <!-- GETTING STARTED -->
 ## Getting Started

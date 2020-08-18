@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import app from './app'
-import auth from './store-auth'
+import auth from '../services/authn/store/store-auth'
 import pages from './store-pages'
 import spaces from './store-spaces'
 

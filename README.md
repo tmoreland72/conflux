@@ -17,7 +17,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/34fame/conflux">
-    <img src="images/34fame-logo.png" alt="Logo" width="80" height="80">
+    <img src="images/conflux-512.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Conflux</h3>

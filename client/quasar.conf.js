@@ -28,7 +28,16 @@ module.exports = function (/* ctx */) {
     framework: {
       iconSet: 'material-icons',
       lang: 'en-us',
-      config: {},
+      config: {
+        cordova: {
+          // add the dynamic top padding on iOS mobile devices
+          iosStatusBarPadding: true,
+
+          // Quasar handles app exit on mobile phone back button
+          // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+          backButtonExit: '*'
+        }
+      },
       importStrategy: 'auto',
       plugins: [
          'Dialog',

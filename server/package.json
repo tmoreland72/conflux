@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "firebase emulators:start --only functions"
+    "dev": "firebase emulators:start --only functions",
+    "deploy": "cd ./functions && firebase deploy && cd .."
   }
 }

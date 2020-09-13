@@ -21,7 +21,7 @@
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "moment": "^2.26.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "uid": "^1.0.0"
   },
   "devDependencies": {

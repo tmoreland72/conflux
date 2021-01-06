@@ -14,7 +14,7 @@
   "dependencies": {
     "@liradb2000/markdown-it-mermaid": "^0.4.1",
     "@quasar/extras": "^1.0.0",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^7.18.0",
     "js-base64": "^3.4.5",

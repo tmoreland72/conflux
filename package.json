@@ -2,7 +2,7 @@
    "name": "conflux",
    "version": "0.1.0",
    "main": "index.js",
-   "repository": "https://34fame:e619639c1f1181fa2aac7789b4db4768f698f683@github.com/34fame/conflux",
+   "repository": "https://github.com/34fame/conflux",
    "author": "Troy Moreland <troy@morelands.net>",
    "license": "MIT",
    "dependencies": {

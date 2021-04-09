@@ -1,97 +1,46 @@
-
 const routes = [
-  {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      {
-        meta: { isPrivate: true },
-        name: 'home',
-        path: '',
-        component: () => import('pages/Index.vue')
-      },
+   {
+      path: '/',
+      component: () => import('layouts/EmptyLayout.vue'),
+      children: [
+         { name: 'anonymous', path: '', component: () => import('pages/Anonymous.vue') },
+         { name: 'login', path: 'login', component: () => import('pages/Login.vue') },
+         { name: 'register', path: 'register', component: () => import('pages/Register.vue') },
+         { name: 'reset-password', path: 'reset-password', component: () => import('pages/ResetPassword.vue') },
+         { name: 'logout', path: 'logout', component: () => import('pages/Logout.vue') },
+      ],
+   },
 
-      { name: 'logout', path: 'logout', component: () => import('src/services/authn/components/Logout.vue') },
+   {
+      path: '/main',
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+         { name: 'home', path: '', component: () => import('pages/Index.vue') },
+         { name: 'books', path: '/books', component: () => import('src/pages/Books.vue') },
+      ],
+   },
 
-      {
-        name: 'login',
-        path: 'login',
-        component: () => import('src/services/authn/components/Login.vue')
-      },
+   {
+      path: '/books',
+      component: () => import('layouts/BookLayout.vue'),
+      children: [
+         { name: 'book', path: ':id/overview', component: () => import('src/pages/BookOverview.vue') },
+         { name: 'book-settings', path: ':id/settings', component: () => import('src/pages/BookSettings.vue') },
+         {
+            name: 'book-page',
+            path: ':id/page/:pageId',
+            component: () => import('src/pages/BookPage.vue'),
+         },
+         { path: ':id', redirect: { name: 'book' } },
+      ],
+   },
 
-      {
-        name: 'login-password',
-        path: 'login/password',
-        component: () => import('src/services/authn/components/UsernamePassword.vue')
-      },
-
-      {
-        name: 'login-phone',
-        path: 'login/phone',
-        component: () => import('src/services/authn/components/Phone.vue')
-      },
-
-      {
-        name: 'register',
-        path: 'register',
-        component: () => import('src/services/authn/components/Register.vue')
-      },
-
-      {
-        meta: { isPrivate: true },
-        name: 'spaces',
-        path: 'spaces',
-        component: () => import('pages/Spaces.vue'),
-      },
-
-      {
-        meta: { isPrivate: true },
-        path: 'spaces/:spaceId',
-        component: () => import('pages/Space.vue'),
-        children: [
-          {
-            name: 'space-overview',
-            path: 'overview',
-            component: () => import('components/Spaces/Overview.vue')
-          },
-          {
-            name: 'space-settings',
-            path: 'settings',
-            props: true,
-            component: () => import('components/Spaces/Settings.vue')
-          },
-          {
-            name: 'page',
-            path: 'page/:pageId',
-            component: () => import('components/Pages/Page.vue')
-          },
-        ]
-      },
-      { path: ' ', redirect: { name: 'home' }},
-
-      {
-        meta: { isPrivate: true },
-        name: 'createSpace',
-        path: '/create/space',
-        component: () => import('components/Spaces/Creation/Dialog.vue')
-      },
-
-      {
-        meta: { isPrivate: true },
-        name: 'createPage',
-        path: '/create/page',
-        component: () => import('components/Pages/Creation/Dialog.vue')
-      },
-
-    ]
-  },
-
-  // Always leave this as last one,
-  // but you can also remove it
-  {
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  }
+   // Always leave this as last one,
+   // but you can also remove it
+   {
+      path: '*',
+      component: () => import('pages/Error404.vue'),
+   },
 ]
 
 export default routes

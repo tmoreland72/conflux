@@ -1,13 +1,28 @@
 {
+  "@quasar/testing": {
+    "harnesses": [
+      "unit-jest",
+      "e2e-cypress"
+    ]
+  },
+  "@quasar/testing-unit-jest": {
+    "babel": "babelrc",
+    "options": [
+      "scripts"
+    ]
+  },
+  "@quasar/testing-e2e-cypress": {
+    "options": [
+      "scripts"
+    ]
+  },
+  "@quasar/qenv": {
+    "common_root_object": "none",
+    "add_qenv_to_gitignore": true
+  },
   "@quasar/qmarkdown": {
     "import_md": true,
     "import_vmd": true
   },
-  "@quasar/dotenv": {
-    "env_development": ".env.development",
-    "env_production": ".env.production",
-    "common_root_object": "none",
-    "create_env_files": true,
-    "add_env_to_gitignore": true
-  }
+  "@quasar/qiconpicker": {}
 }

@@ -1,0 +1,141 @@
+@baseUrl = http://127.0.0.1:5001/conflux-dev/us-central1/api
+#@baseUrl = https://us-central1-conflux-dev.cloudfunctions.net/api
+@email = troy@morelands.net
+
+# @name registerUser
+POST {{baseUrl}}/public/register HTTP/1.1
+Content-Type: application/json
+
+{
+   "name": "Troy",
+   "email": "{{email}}",
+   "password": "foobar"
+}
+
+###
+
+@token = {{registerUser.response.body.data}}
+
+# @name getUserByEmail
+GET {{baseUrl}}/users/email/{{email}}
+Authorization: Bearer {{token}}
+
+###
+
+@userId = {{getUserByEmail.response.body.data.id}}
+
+# @name loginUser
+POST {{baseUrl}}/public/login
+Content-Type: application/json
+
+{
+   "email": "troy@morelands.net",
+   "password": "foobar"
+}
+
+###
+
+# @name resetPassword
+POST {{baseUrl}}/public/reset
+Content-Type: application/json
+
+{
+   "email": "troy@morelands.net"
+}
+
+###
+
+@token = {{loginUser.response.body.data}}
+
+# @name createBook
+POST {{baseUrl}}/books HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "title": "Title One",
+   "subtitle": "Best book ever...",
+   "owner": "{{userId}}",
+   "collaborators": [ "{{userId}}" ]
+}
+
+###
+
+@bookId = {{createBook.response.body.data.id}}
+
+# @name addBookChapter
+POST {{baseUrl}}/chapters
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "bookId": "{{bookId}}",
+   "title": "Chapter Two",
+   "subtitle": "Where it went next..."
+}
+
+###
+
+@chapterId = {{addBookChapter.response.body.data.id}}
+
+# @name createPage
+POST {{baseUrl}}/pages HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "title": "Page Title One",
+   "subtitle": "One for the Gipper",
+   "chapterId": "{{chapterId}}"
+}
+
+###
+
+@pageId = {{createPage.response.body.data.id}}
+
+###
+
+# @name updateBookCollaborators
+PATCH {{baseUrl}}/books/{{bookId}} HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "collaborators": [ "{{userId}}", "{{userId2}}" ]
+}
+
+###
+
+# @name deletePage
+DELETE {{baseUrl}}/pages/{{pageId}}
+Authorization: Bearer {{token}}
+
+###
+
+# @name deleteChapter
+DELETE {{baseUrl}}/chapters/{{chapterId}}
+Authorization: Bearer {{token}}
+
+###
+
+# @name deleteBook
+DELETE {{baseUrl}}/books/{{bookId}}
+Authorization: Bearer {{token}}
+
+###
+
+# @name deleteUser
+DELETE {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{token}}
+
+###
+
+# @name search
+POST {{baseUrl}}/search
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+   "userId": "{{userId}}",
+   "searchString": "Conflux"
+}

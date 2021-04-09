@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "conflux-bacaa"
+    "default": "conflux-dev",
+    "dev": "conflux-dev"
   }
 }

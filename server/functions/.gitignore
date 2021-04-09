@@ -1,6 +1,3 @@
-node_modules/
-
-google-service-account.json
-firestore-debug.log
-ui-debug.log
-.env
+node_modules
+**/service-account*
+.runtimeconfig.json

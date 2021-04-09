@@ -1,68 +1,46 @@
 <template>
-   <div>
-      <template v-if="loading"></template>
+   <div id="q-app">
+      <template v-if="processing">
+         <q-inner-loading color="primary" :showing="true" />
+      </template>
       <template v-else>
-         <div id="q-app">
-            <router-view/>
-         </div>
+         <router-view />
       </template>
    </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { Loading } from 'quasar'
-
-import * as storage from 'src/services/storage'
+import { storage } from 'boot/storage'
+import Core from 'src/mixins/Core'
 
 export default {
+   name: 'App',
+
    data() {
       return {
-         loading: false,
+         processing: false,
       }
    },
 
    methods: {
-      ...mapActions([
-         'auth/handleAuthStateChange',
-         'pages/getPages',
-         'spaces/getSpaces',
-      ]),
-
-      async onAuthStateChange() {
-         Loading.show({ message: 'Logging in...' })
-         await this['auth/handleAuthStateChange']()
-         Loading.hide()
-      },
-
-      async initData() {
-         Loading.show({
-            spinnerColor: 'white',
-            messageColor: 'white',
-            backgroundColor: 'primary',
-            message: 'Loading data...',
-            spinnerSize: '140',
-         })
-         await Promise.all([
-               await this['spaces/getSpaces'](),
-               await this['pages/getPages'](),
-            ])
-            .then(() => {
-               if (storage.has('local', 'redirect') && storage.has('session', 'session')) {
-                  let redirect = storage.get('local', 'redirect')
-                  storage.remove('local', 'redirect')
-                  this.$router.replace(redirect)
-               }
-               Loading.hide()
-               this.loading = false
-            })
+      initializing() {
+         const interval = setInterval(() => {
+            if (storage.has('profile') && !storage.has('initializing')) {
+               this.processing = false
+               clearInterval(interval)
+            }
+         }, 500)
       },
    },
 
-   async beforeMount() {
-      this.loading = true
-      await this.onAuthStateChange()
+   mixins: [Core],
+
+   async mounted() {
+      if (storage.has('accessToken')) {
+         this.$axios.defaults.headers.common.Authorization = `Bearer ${storage.getItem('accessToken')}`
+      }
       await this.initData()
+      // this.initializing()
    },
 }
 </script>

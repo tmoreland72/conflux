@@ -1,24 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { vuexfireMutations } from 'vuexfire'
 
-import app from './app'
-import auth from '../services/authn/store/store-auth'
-import pages from './store-pages'
-import spaces from './store-spaces'
+import store from './store'
 
 Vue.use(Vuex)
 
-export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
-    modules: {
-      app,
-      auth,
-      pages,
-      spaces
-    },
+const Store = new Vuex.Store({
+   mutations: {
+      ...vuexfireMutations,
+   },
 
-    strict: process.env.DEV
-  })
+   modules: {
+      store,
+   },
 
-  return Store
+   strict: process.env.DEBUGGING,
+})
+
+export default function() {
+   return Store
 }
+
+export { Store }

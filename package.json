@@ -1,0 +1,34 @@
+{
+   "name": "conflux-2021",
+   "version": "0.0.3",
+   "main": "index.js",
+   "repository": "https://34fame:e619639c1f1181fa2aac7789b4db4768f698f683@github.com/34fame/conflux-2021",
+   "author": "Troy Moreland <troy@morelands.net>",
+   "license": "MIT",
+   "dependencies": {
+      "npm-run-all": "^4.1.5"
+   },
+   "scripts": {
+      "version:patch": "npm version patch",
+      "code": "code . && code ./client && code ./server",
+      "client:local-test:spa": "cd client && yarn serve:local-test:spa && cd ..",
+      "client:local:spa": "cd client && yarn serve:local:spa && cd ..",
+      "client:dev:spa": "cd client && yarn serve:dev:spa && cd ..",
+      "client:local:ios": "cd client && yarn serve:local:ios && cd ..",
+      "server:dev": "cd server/functions && yarn serve:dev && cd ../..",
+      "server:local": "cd server/functions && yarn serve:local && cd ../..",
+      "serve:local": "npm-run-all --parallel client:local:spa server:local",
+      "serve:local-test": "npm-run-all --parallel client:local:spa server:local",
+      "serve:dev": "npm-run-all --parallel client:dev:spa server:dev",
+      "serve:local:ios": "npm-run-all --parallel client:local:ios server:local",
+      "deploy:client:dev": "cd client && yarn deploy:dev && cd ..",
+      "deploy:client:test": "cd client && yarn deploy:test && cd ..",
+      "deploy:client:prod": "cd client && yarn deploy:prod && cd ..",
+      "deploy:server:dev": "cd server/functions && yarn deploy:dev && cd ../../",
+      "deploy:server:test": "cd server/functions && yarn deploy:test && cd ../../",
+      "deploy:server:prod": "cd server/functions && yarn deploy:prod && cd ../../",
+      "deploy:dev": "npm-run-all version:patch deploy:server:dev deploy:client:dev",
+      "deploy:test": "npm-run-all deploy:server:test deploy:client:test",
+      "deploy:prod": "npm-run-all deploy:server:prod deploy:client:prod"
+   }
+}

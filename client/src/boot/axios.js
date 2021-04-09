@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-const http = axios.create({
-   baseUrl: process.env.API_BASEURL
-})
+const instance = axios.create({})
 
-Vue.prototype.$axios = axios
+instance.defaults.baseURL = process.env.API_BASEURL
+instance.defaults.headers.common['Accept'] = 'application/json'
+instance.defaults.headers.post['Content-Type'] = 'application/json'
+instance.defaults.headers.patch['Content-Type'] = 'application/json'
 
-export { http }
+Vue.prototype.$axios = instance
+export { instance }

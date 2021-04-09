@@ -1,128 +1,44 @@
-require('dotenv').config()
 const functions = require('firebase-functions')
 const express = require('express')
-
-const pages = require('./pages')
-const spaces = require('./spaces')
-const users = require('./users')
-const files = require('./files')
+const cors = require('cors')
+const morgan = require('morgan')
 
 const app = express()
+app.use(express.json())
+app.use(cors())
+app.use(morgan('dev'))
 
-app.use(function(req, res, next) {
-   res.header('Access-Control-Allow-Origin', '*')
-   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-   res.header('Access-Control-Allow-Methods', '*')
-   next()
+const auth = require('./lib/auth')
+
+const publicRoutes = require('./routes/public')
+app.use('/public', publicRoutes)
+
+const userRoutes = require('./routes/users')
+app.use('/users', auth, userRoutes)
+
+const bookRoutes = require('./routes/books')
+app.use('/books', auth, bookRoutes)
+
+const chapterRoutes = require('./routes/chapters')
+app.use('/chapters', auth, chapterRoutes)
+
+const pageRoutes = require('./routes/pages')
+app.use('/pages', auth, pageRoutes)
+
+const searchRoutes = require('./routes/search')
+app.use('/search', auth, searchRoutes)
+
+app.use(function (req, res) {
+   res.status(404).send()
 })
-
-// Authentication Operations
-app.post('/auth', async (req, res) => {
-   await users.login(req, res)
-})
-
-app.post('/register', async (req, res) => {
-   await users.create(req, res)
-})
-
-
-// Storage Operations
-app.post('/files/:userId/:name', async (req, res) => {
-   await files.upload(req, res)
-})
-
-
-// Spaces Operations
-app.post('/spaces/retrieve', async (req, res) => {
-   await spaces.retrieve(req, res)
-})
-
-app.get('/:tenantId/spaces', async (req, res) => {
-   await spaces.get(req, res)
-})
-
-app.get('/:tenantId/spaces/:id', async (req, res) => {
-   await spaces.getById(req, res)
-})
-
-app.post('/:tenantId/spaces', async (req, res) => {
-   await spaces.create(req, res)
-})
-
-app.patch('/:tenantId/spaces/:id', async (req, res) => {
-   await spaces.update(req, res)
-})
-
-app.delete('/:tenantId/spaces/:id', async (req, res) => {
-   await spaces.delete(req, res)
-})
-
-
-
-// Pages Operations
-app.post('/pages/retrieve', async (req, res) => {
-   await pages.retrieve(req, res)
-})
-
-app.get('/:tenantId/pages', async (req, res) => {
-   await pages.get(req, res)
-})
-
-app.get('/:tenantId/pages/:id', async (req, res) => {
-   await pages.getById(req, res)
-})
-
-app.post('/:tenantId/pages', async (req, res) => {
-   await pages.create(req, res)
-})
-
-app.patch('/:tenantId/pages/:id', async (req, res) => {
-   await pages.update(req, res)
-})
-
-app.delete('/:tenantId/pages/:id', async (req, res) => {
-   await pages.delete(req, res)
-})
-
-
-
-// User Operations
-app.get('/users/id', async (req, res) => {
-   await users.getUserId(req, res)
-})
-
-app.get('/:tenantId/users', async (req, res) => {
-   await users.getByTenant(req, res)
-})
-
-app.get('/:tenantId/users/:userId', async (req, res) => {
-   await users.getByUserId(req, res)
-})
-
-app.post('/:tenantId/users', async (req, res) => {
-   await users.create(req, res)
-})
-
-app.patch('/:tenantId/users/:userId', async (req, res) => {
-   await users.update(req, res)
-})
-
-app.delete('/:tenantId/users/:userId', async (req, res) => {
-   await users.delete(req, res)
-})
-
-app.get('/:tenantId/users/:userId/:subcollection', async (req, res) => {
-   await users.getSubcollectionItems(req, res)
-})
-
-app.post('/:tenantId/users/:userId/:subcollection', async (req, res) => {
-   await users.addSubcollectionItem(req, res)
-})
-
-app.delete('/:tenantId/users/:userId/:subcollection/:subcollectionId', async (req, res) => {
-   await users.deleteSubcollectionItem(req, res)
-})
-
-
 
 exports.api = functions.https.onRequest(app)
+
+const events = require('./lib/events')
+exports.createBook = events.createBook
+exports.updateBook = events.updateBook
+exports.deleteBook = events.deleteBook
+exports.deleteChapter = events.deleteChapter
+exports.createPage = events.createPage
+exports.updatePage = events.updatePage
+exports.deletePage = events.deletePage

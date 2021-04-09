@@ -10,7 +10,7 @@
       "start:local": "firebase emulators:start",
       "start:dev": "firebase emulators:start --only functions",
       "firebase:dev": "firebase deploy -P dev",
-      "serve:local": "npm-run-all set:dev set:runtime start:local",
+      "serve:local": "npm-run-all use:dev set:dev set:runtime start:local",
       "serve:dev": "npm-run-all use:dev copy:dev set:dev set:runtime start:dev",
       "deploy:dev": "npm-run-all use:dev set:dev firebase:dev",
       "shell:local": "npm-run-all use:dev copy:dev set:local set:runtime run:shell",

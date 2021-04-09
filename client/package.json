@@ -2,7 +2,7 @@
    "name": "client",
    "version": "0.0.1",
    "description": "Document Everything from Anywhere",
-   "productName": "Conflux 2021",
+   "productName": "Conflux",
    "author": "Troy Moreland <troy@morelands.net>",
    "private": true,
    "scripts": {

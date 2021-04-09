@@ -1,7 +1,6 @@
 {
    "emulators": {
       "functions": {
-         "host": "%local-ip-address%",
          "port": 5001
       },
       "ui": {

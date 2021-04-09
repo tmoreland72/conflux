@@ -44,6 +44,7 @@
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
+  - [Startup](#startup)
 - [Basic Usage](#basic-usage)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -86,7 +87,6 @@ What you will need to get started:
 -  Algolia account
    -  Create a new app
    -  Create a new index
-
 
 ### Installation
 
@@ -137,6 +137,19 @@ What you will need to get started:
    ```
 
 -  Export service account from Firebase as `conflux/server/functions/services/firebase/service-account.json`
+
+### Startup
+
+There are several scripts available in the project, client and server package.json files to assist with starting up Conflux for different scenarios. The easiest is to run everything locally using Firebase emulators.
+
+```bash
+# From the project root directory
+yarn serve:local
+```
+
+If this loads successfully, you should see Conflux open in your browser at http://localhost:8080. You can open the Firebase emulator dashboard at http://localhost:4000. This will give you visibility of the Firest and Cloud Function services now running on your machine.
+
+WARNING: Running locally with emulators means no data will be saved. You will have to deploy your client and server to Firebase and run against that environment for data to remain.
 
 <!-- USAGE EXAMPLES -->
 

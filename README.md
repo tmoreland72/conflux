@@ -25,14 +25,24 @@
   <p align="center">
     Conflux is a personal writing/documenting tool, inspired by Atlassian's Confluence.  It is a full-stack application using Quasar Framework (Vue.js) for the client and Node.js/Express.js for the server.  Both the client and server are built to run in Google Firebase.
     <br />
-    <a href="https://github.com/34fame/conflux"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/34fame/conflux/wiki" _target="blank"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/34fame/conflux">View Demo</a>
+    <a href="https://github.com/34fame/conflux" _target="blank">View Demo</a>
     ·
-    <a href="https://github.com/34fame/conflux/issues">Report Bug</a>
+    <a href="https://github.com/34fame/conflux/issues" _target="blank">Report Bug</a>
     ·
-    <a href="https://github.com/34fame/conflux/issues">Request Feature</a>
+    <a href="https://github.com/34fame/conflux/issues" _target="blank">Request Feature</a>
+  </p>
+
+  <p align="center">
+   <a
+      href="https://conflux.34fame.com"
+      _target="blank"
+      style="background-color: #FD7014; border: none; border-radius: 8px; color: white; padding: 15px 32px; text-decoration: none; display: inline-block; font-size: 16px; cursor: pointer;"
+   >
+      Open Conflux
+   </a>
   </p>
 </p>
 

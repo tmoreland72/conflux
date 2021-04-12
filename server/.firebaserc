@@ -1,6 +1,7 @@
 {
   "projects": {
     "dev": "conflux-dev",
-    "default": "conflux-dev"
+    "default": "conflux-dev",
+    "prod": "conflux-prod"
   }
 }

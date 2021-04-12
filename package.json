@@ -10,6 +10,8 @@
    },
    "scripts": {
       "version:patch": "npm version patch",
+      "version:minor": "npm version minor",
+      "version:major": "npm version major",
       "code": "code . && code ./client && code ./server",
       "client:local-test:spa": "cd client && yarn serve:local-test:spa && cd ..",
       "client:local:spa": "cd client && yarn serve:local:spa && cd ..",
@@ -22,13 +24,10 @@
       "serve:dev": "npm-run-all --parallel client:dev:spa server:dev",
       "serve:local:ios": "npm-run-all --parallel client:local:ios server:local",
       "deploy:client:dev": "cd client && yarn deploy:dev && cd ..",
-      "deploy:client:test": "cd client && yarn deploy:test && cd ..",
       "deploy:client:prod": "cd client && yarn deploy:prod && cd ..",
       "deploy:server:dev": "cd server/functions && yarn deploy:dev && cd ../../",
-      "deploy:server:test": "cd server/functions && yarn deploy:test && cd ../../",
       "deploy:server:prod": "cd server/functions && yarn deploy:prod && cd ../../",
       "deploy:dev": "npm-run-all version:patch deploy:server:dev deploy:client:dev",
-      "deploy:test": "npm-run-all deploy:server:test deploy:client:test",
       "deploy:prod": "npm-run-all deploy:server:prod deploy:client:prod"
    }
 }

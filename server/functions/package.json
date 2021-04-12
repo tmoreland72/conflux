@@ -2,6 +2,11 @@
    "name": "functions",
    "description": "Cloud Functions for Firebase",
    "scripts": {
+      "use:prod": "firebase use prod",
+      "copy:prod": "cp services/firebase/service-account_prod.json services/firebase/service-account.json",
+      "set:prod": "firebase functions:config:set app.env=prod app.jwtsecret=d79cb3841b7a4a1481b7274ebb09de31 algolia.adminkey=13607cada5efda16483bdfe4c324e4b6 algolia.index=prod algolia.appid=2EA38RAMYQ sendgrid.apikey=SG.9NkBWUiATU6yznw2P899WQ.CSUiGW8wEIUEYOseCdQQAMikGe6JicFUWtCGbnHBGDs",
+      "firebase:prod": "firebase deploy -P prod",
+      "deploy:prod": "npm-run-all use:prod set:prod firebase:prod",
       "logs": "firebase functions:log",
       "use:dev": "firebase use dev",
       "copy:dev": "cp services/firebase/service-account_dev.json services/firebase/service-account.json",

@@ -6,6 +6,10 @@
    "author": "Troy Moreland <troy@morelands.net>",
    "private": true,
    "scripts": {
+      "build:prod:spa": "cross-env QENV=prod quasar build",
+      "use:prod": "firebase use prod",
+      "firebase:prod": "firebase deploy -P prod",
+      "deploy:prod": "npm-run-all use:prod build:prod:spa firebase:prod",
       "use:dev": "firebase use dev",
       "build:dev:spa": "cross-env QENV=dev quasar build",
       "firebase:dev": "firebase deploy -P dev",

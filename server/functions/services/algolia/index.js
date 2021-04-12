@@ -1,9 +1,7 @@
 const algoliasearch = require('algoliasearch')
-const functions = require('firebase-functions')
-const config = functions.config()
 
-const client = algoliasearch(config.algolia.appid, config.algolia.adminkey)
-const index = client.initIndex(config.algolia.index)
+const client = algoliasearch(process.env.ALGOLIA_APPID, process.env.ALGOLIA_ADMINKEY)
+const index = client.initIndex(process.env.ALGOLIA_INDEX)
 
 exports.push = (data) => {
    data.objectID = data.id

@@ -1,8 +1,5 @@
 const crypto = require('crypto')
 const CryptoJS = require('crypto-js')
-const functions = require('firebase-functions')
-
-const config = functions.config()
 
 exports.hash = async (clearText) => {
    return new Promise((res, rej) => {
@@ -42,7 +39,7 @@ function convertBase64(string) {
 exports.createJWT = ({ payload }) => {
    try {
       const header = convertBase64(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
-      const secret = config.app.jwtsecret
+      const secret = process.env.APP_JWTSECRET
       payload = convertBase64(JSON.stringify(payload))
 
       let sign = CryptoJS.HmacSHA256(`${header}.${payload}`, secret)

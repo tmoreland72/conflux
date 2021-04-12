@@ -2,11 +2,30 @@ const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+require('dotenv').config()
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(morgan('dev'))
+
+app.use((req, res, next) => {
+   req.env = {
+      app: {
+         env: process.env.APP_ENV,
+         jwtsecret: process.env.APP_JWTSECRET,
+      },
+      algolia: {
+         appid: process.env.ALGOLIA_APPID,
+         adminkey: process.env.ALGOLIA_ADMINKEY,
+         index: process.env.ALGOLIA_INDEX,
+      },
+      sendgrid: {
+         apikey: process.env.SENDGRID_APIKEY,
+      },
+   }
+   next()
+})
 
 const auth = require('./lib/auth')
 

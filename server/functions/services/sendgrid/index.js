@@ -1,9 +1,7 @@
-const functions = require('firebase-functions')
 const sgMail = require('@sendgrid/mail')
 const templates = require('./templates')
 
-const config = functions.config()
-sgMail.setApiKey(config.sendgrid.apikey)
+sgMail.setApiKey(process.env.SENDGRID_APIKEY)
 
 const send = async (props) => {
    const { to, subject, html } = props
@@ -13,7 +11,7 @@ const send = async (props) => {
       subject,
       html,
    }
-   if (config.app.env !== 'prod') {
+   if (process.env.APP_ENV !== 'prod') {
       console.info('sendEmail', msg)
    } else {
       sgMail

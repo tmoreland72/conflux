@@ -1,9 +1,7 @@
 const { uid } = require('uid')
 const jwt = require('jsonwebtoken')
-const functions = require('firebase-functions')
 const cryptoRandomString = require('crypto-random-string')
 
-const config = functions.config()
 const sendgrid = require('../services/sendgrid')
 const { admin, firestore } = require('../services/firebase')
 const crypt = require('./crypto')
@@ -50,7 +48,7 @@ const login = async (req, { email, password }) => {
       user = await get(user.id)
       req.user = user
       // const token = crypt.createJWT({ payload: user })
-      const token = jwt.sign(user, config.app.jwtsecret)
+      const token = jwt.sign(user, process.env.APP_JWTSECRET)
 
       saveAuditEventToDB(req, firestore, {
          performedOn: user.id,
@@ -86,7 +84,7 @@ const register = async (req, user) => {
       await firestore.collection('users').doc(user.id).set(user)
 
       let newUser = await get(user.id)
-      const token = jwt.sign(newUser, config.app.jwtsecret)
+      const token = jwt.sign(newUser, process.env.APP_JWTSECRET)
 
       await books.create(req, {
          title: 'Conflux Tips',

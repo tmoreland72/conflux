@@ -110,6 +110,9 @@ const resetPassword = async (req, email) => {
    try {
       const user = await getByEmail(email)
       const password = cryptoRandomString({ length: 10, type: 'url-safe' })
+      if (process.env.APP_ENV !== 'prod') {
+         console.log(password)
+      }
       await update(req, { id: user.id, changes: { password } })
       sendgrid.sendPasswordReset({ to: user.email, name: user.name, password })
 

@@ -68,7 +68,6 @@ import jwt_decode from 'jwt-decode'
 import { fireauth } from 'boot/firebase'
 import { storage } from 'boot/storage'
 import Core from 'src/mixins/Core'
-import lib from 'src/lib'
 
 export default {
    name: 'Login',

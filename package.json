@@ -20,7 +20,7 @@
       "server:dev": "cd server/functions && yarn serve:dev && cd ../..",
       "server:local": "cd server/functions && yarn serve:local && cd ../..",
       "serve:local": "npm-run-all --parallel client:local:spa server:local",
-      "serve:local-test": "npm-run-all --parallel client:local:spa server:local",
+      "serve:local-test": "npm-run-all --parallel client:local-test:spa server:local",
       "serve:dev": "npm-run-all --parallel client:dev:spa server:dev",
       "serve:local:ios": "npm-run-all --parallel client:local:ios server:local",
       "deploy:client:dev": "cd client && yarn deploy:dev && cd ..",

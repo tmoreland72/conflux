@@ -58,14 +58,15 @@ export default {
       ...mapActions(['store/bind', 'store/unbind']),
 
       async initData() {
+         console.log('initData')
          return new Promise(async (res, rej) => {
             storage.set('initializing', true)
             try {
-               if (!storage.has('profile')) {
-                  storage.remove('initializing')
-                  res()
-                  return false
-               }
+               // if (!storage.has('profile')) {
+               //    storage.remove('initializing')
+               //    res()
+               //    return false
+               // }
                await this['store/bind']('users')
                await this['store/bind']('books')
                await this['store/bind']('chapters')

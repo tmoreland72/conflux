@@ -85,7 +85,6 @@ export default {
       },
 
       bookOptions() {
-         console.log('bookOptions', this['store/bookOptions'])
          return this['store/bookOptions']
       },
 
@@ -134,8 +133,6 @@ export default {
                Notify.create({ color: 'negative', message: this.$t(result.data.message) })
                return false
             }
-
-            console.log('results', result.data.data)
 
             this.$router.push({
                name: 'book-page',

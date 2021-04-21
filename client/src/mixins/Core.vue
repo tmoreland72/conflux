@@ -58,7 +58,6 @@ export default {
       ...mapActions(['store/bind', 'store/unbind']),
 
       async initData() {
-         console.log('initData')
          return new Promise(async (res, rej) => {
             storage.set('initializing', true)
             try {

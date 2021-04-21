@@ -88,7 +88,6 @@ export default {
          const interval = setInterval(() => {
             const book = this['store/byId']({ collection: 'books', id: this.$route.params.id })
             if (book && book.overview) {
-               console.log('book', book)
                this.book = book
                this.loading = false
                clearInterval(interval)

@@ -29,6 +29,9 @@ app.use((req, res, next) => {
 
 const auth = require('./lib/auth')
 
+const publishedRoutes = require('./routes/published')
+app.use('/published', publishedRoutes)
+
 const publicRoutes = require('./routes/public')
 app.use('/public', publicRoutes)
 

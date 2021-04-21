@@ -17,12 +17,14 @@
                indicator-color="primary"
             >
                <q-tab name="content" :label="$t('content')" no-caps />
-               <q-tab name="permissions" :label="$t('permissions')" no-caps />
+               <q-tab name="publish" :label="$t('publish')" no-caps />
+               <!-- <q-tab name="permissions" :label="$t('permissions')" no-caps /> -->
             </q-tabs>
 
             <q-separator />
 
             <q-tab-panels class="q-mt-md" v-model="tab" animated>
+               <!-- Content Panel -->
                <q-tab-panel name="content" class="q-pa-none">
                   <q-splitter v-model="tabSplitter">
                      <!-- Submenu -->
@@ -79,6 +81,50 @@
                      </template>
                   </q-splitter>
                </q-tab-panel>
+
+               <!-- Publish Panel -->
+               <q-tab-panel name="publish">
+                  <template v-if="published">
+                     <div class="column">
+                        <span class="text-subtitle1">Published Link:</span>
+                        <div class="row items-center q-gutter-sm">
+                           <span class="text-h6 text-weight-light">
+                              {{ publishedBook.link.url }}
+                           </span>
+                           <q-icon
+                              name="content_copy"
+                              color="grey-5"
+                              size="xs"
+                              @click="onCopyLink"
+                           />
+                           <q-icon
+                              name="launch"
+                              color="grey-5"
+                              size="xs"
+                              @click="onLaunchLink"
+                           />
+                        </div>
+                        <div class="q-mt-lg">
+                           <q-btn
+                              :label="$t('unpublishbook')"
+                              :loading="processing"
+                              color="primary"
+                              no-caps
+                              @click="onUnpublish"
+                           />
+                        </div>
+                     </div>
+                  </template>
+                  <template v-else>
+                     <q-btn
+                        :label="$t('publishbook')"
+                        :loading="processing"
+                        color="primary"
+                        no-caps
+                        @click="onPublish"
+                     />
+                  </template>
+               </q-tab-panel>
             </q-tab-panels>
          </div>
 
@@ -105,7 +151,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { copyToClipboard, openURL, Notify } from 'quasar'
 
 import Core from 'src/mixins/Core'
 
@@ -119,6 +166,8 @@ export default {
          tab: 'content',
          innerTab: 'chapters',
          tabSplitter: 12,
+         published: false,
+         publishedBook: {},
       }
    },
 
@@ -144,13 +193,70 @@ export default {
    },
 
    methods: {
+      ...mapActions(['published/getBook']),
+
       init() {
-         const interval = setInterval(() => {
+         const interval = setInterval(async () => {
             if (this['store/byId']({ collection: 'books', id: this.$route.params.id })) {
+               await this.getPublished()
                this.loading = false
                clearInterval(interval)
             }
          }, 500)
+      },
+
+      async getPublished() {
+         try {
+            let publishedResult = await this.$axios.get(`/published/${this.book.id}`)
+            if (publishedResult.data.success) {
+               this.published = true
+               this.publishedBook = publishedResult.data.data
+            } else {
+               this.published = false
+               this.publishedBook = {}
+            }
+         } catch (error) {
+            console.error('getPublished', error)
+            this.published = false
+         }
+      },
+
+      async onPublish() {
+         this.processing = true
+         try {
+            await this.$axios.post(`/published/${this.book.id}`, {})
+            this.init()
+         } catch (error) {
+            console.error('onPublish', error)
+         } finally {
+            this.processing = false
+         }
+      },
+
+      async onUnpublish() {
+         this.processing = true
+         try {
+            await this.$axios.delete(`/published/${this.book.id}`, {})
+            this.init()
+         } catch (error) {
+            console.error('onUnpublish', error)
+         } finally {
+            this.processing = false
+         }
+      },
+
+      async onCopyLink() {
+         try {
+            await copyToClipboard(this.publishedBook.link.url)
+            Notify.create(this.$t('copied'))
+         } catch (error) {
+            console.error('onCopyLink', error)
+            Notify.create({ color: 'negative', message: this.$t('failed') })
+         }
+      },
+
+      onLaunchLink() {
+         openURL(this.publishedBook.link.url)
       },
    },
 
@@ -159,10 +265,6 @@ export default {
    watch: {
       $route: function() {
          this.init()
-      },
-
-      chapters: function() {
-         console.log('BookSettings', 'watch', 'chapters')
       },
    },
 

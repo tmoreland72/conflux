@@ -14,13 +14,16 @@ export default {
    usernotfound: 'Email not found',
    quote: 'You can make anything by writing.',
    warning: 'Warning!',
-   bookdeletewarningmsg: 'Deletes are permanent!  All pages in this book will also be deleted.  Are you sure?',
-   chapterdeletewarningmsg: 'Deletes are permanent!  All pages in this chapter will also be deleted.  Are you sure?',
+   bookdeletewarningmsg:
+      'Deletes are permanent!  All pages in this book will also be deleted.  Are you sure?',
+   chapterdeletewarningmsg:
+      'Deletes are permanent!  All pages in this chapter will also be deleted.  Are you sure?',
    pagedeletewarningmsg: 'Deletes are permanent!  Are you sure?',
    selecticon: 'Select an icon (optional)',
    invalidname: 'Please enter your name',
    invalidemail: 'Please enter a valid email address',
-   invalidpassword: 'Password must be at least 8 characters and contain letters and numbers',
+   invalidpassword:
+      'Password must be at least 8 characters and contain letters and numbers',
    emailinuse: 'Email already in use',
    invalidcredentials: 'Incorrect password',
 
@@ -51,6 +54,9 @@ export default {
    changepassword: 'Change Password',
    editprofile: 'Edit Profile',
    logout: 'Logout',
+   publish: 'Publish',
+   publishbook: 'Publish Book (make public)',
+   unpublishbook: 'Unpublish Book (make private)',
 
    create: 'Add',
    read: 'View',
@@ -63,7 +69,6 @@ export default {
    settings: 'Settings',
    chapter: 'Chapter',
    chapters: 'Chapters',
-
    page: 'Page',
    pages: 'Pages',
 }

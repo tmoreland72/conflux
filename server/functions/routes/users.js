@@ -32,7 +32,7 @@ router.patch('/:id', async (req, res) => {
       const updatedUser = await users.update(req, { id, changes })
       res.status(200).send({
          success: true,
-         message: 'updates',
+         message: 'updated',
          data: updatedUser,
       })
    } catch (error) {
@@ -64,10 +64,8 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/token/:id', async (req, res) => {
    try {
-      console.log('requeesting custom token')
       const id = req.params.id
       const token = await fireauth.createCustomToken(id)
-      console.log('customToken', token)
       res.status(200).send({
          success: true,
          message: 'success',

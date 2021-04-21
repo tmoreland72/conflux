@@ -97,7 +97,7 @@ export default {
          try {
             await this.$axios.patch(`/books/${this.book.id}`, { archived: true })
          } catch (error) {
-            console.log('BookCard', 'onArchiveBook', error)
+            console.error('BookCard', 'onArchiveBook', error)
             Notify.create({ color: 'negative', message: this.$t('failed') })
          }
       },
@@ -106,7 +106,7 @@ export default {
          try {
             await this.$axios.patch(`/books/${this.book.id}`, { archived: false })
          } catch (error) {
-            console.log('BookCard', 'onRestoreBook', error)
+            console.error('BookCard', 'onRestoreBook', error)
             Notify.create({ color: 'negative', message: this.$t('failed') })
          }
       },

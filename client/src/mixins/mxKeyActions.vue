@@ -6,7 +6,6 @@ export default {
          let start = e.target.selectionStart
          let end = e.target.selectionEnd
          let value = e.target.value
-         //console.log('key', e.key, 'shift', e.shiftKey, 'ctrl', e.ctrlKey)
 
          // Tab
          if (e.key === 'Tab' && !e.shiftKey) {

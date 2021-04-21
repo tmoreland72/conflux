@@ -5,6 +5,7 @@ const algolia = require('../services/algolia')
 const sendgrid = require('../services/sendgrid')
 const books = require('../lib/books')
 const chapters = require('../lib/chapters')
+const published = require('../lib/published')
 const pages = require('../lib/pages')
 
 const pushToAlgolia = async (page) => {
@@ -71,7 +72,6 @@ exports.updateBook = functions.firestore
                })
             })
          }
-
       } catch (error) {
          console.error('updateBook', error)
          return
@@ -83,6 +83,7 @@ exports.deleteBook = functions.firestore
    .onDelete(async (snap, context) => {
       try {
          const book = snap.data()
+         published.unpublishBook(book.id)
          const bookChapters = await chapters.getByBook(book.id)
          bookChapters.forEach((chapter) => {
             chapters.del(chapter.id)

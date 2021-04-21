@@ -10,7 +10,6 @@ describe("Spaces", () => {
       let result = await supertest
          .get("/"+TENANTID+"/spaces")
          .send()
-      console.log("result", result.text)
       expect(typeof result.text).toBe("string")
    })
 

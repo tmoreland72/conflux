@@ -36,8 +36,25 @@ export default {
    mixins: [Core],
 
    async mounted() {
+      // Anonymous Requests
+      const urlPath = window.location.pathname.split('/')
+      if (urlPath[1] === 'published') {
+         if (urlPath[3] === 'page') {
+            this.$router.push({
+               name: 'public-book-page',
+               params: { id: urlPath[2], pageId: urlPath[4] },
+            })
+         } else {
+            this.$router.push({ name: 'public-book', params: { id: urlPath[2] } })
+         }
+         return false
+      }
+
+      // Authenticated Requests
       if (storage.has('accessToken')) {
-         this.$axios.defaults.headers.common.Authorization = `Bearer ${storage.getItem('accessToken')}`
+         this.$axios.defaults.headers.common.Authorization = `Bearer ${storage.getItem(
+            'accessToken'
+         )}`
       }
       await this.initData()
       // this.initializing()

@@ -91,7 +91,6 @@ export default {
                ...this.form,
             }
             const countBefore = this['store/all']({ collection: 'chapters' }).length
-            console.log('chapterCount before', countBefore)
             const result = await this.$axios.post(`/chapters`, chapter)
             if (!result.data.success) {
                Notify.create({ color: 'negative', message: this.$t(result.data.message) })
@@ -99,7 +98,6 @@ export default {
             }
             const interval = setInterval(() => {
                const countAfter = this['store/all']({ collection: 'chapters' }).length
-               console.log('chapterCount after', countAfter)
                if (countAfter > countBefore) {
                   clearInterval(interval)
                }

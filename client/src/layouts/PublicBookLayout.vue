@@ -1,6 +1,6 @@
 <template>
    <q-layout class="bg-dark" view="hHh LpR lff">
-      <page-header :toggleMenu="toggleMenu" @initLayout="init" />
+      <public-page-header :toggleMenu="toggleMenu" @initLayout="init" />
 
       <q-drawer
          bordered
@@ -9,9 +9,9 @@
          show-if-above
          v-model="openDrawer"
       >
-         <template v-if="loading"
-            ><q-inner-loading dark color="primary" :spinning="true"
-         /></template>
+         <template v-if="loading">
+            <q-inner-loading dark color="primary" :spinning="true" />
+         </template>
 
          <template v-else>
             <q-list padding>
@@ -37,7 +37,7 @@
                   active-class="bg-secondary text-primary"
                   clickable
                   v-ripple
-                  :to="{ name: 'book', params: { id: book.id } }"
+                  :to="{ name: 'public-book', params: { id: book.id } }"
                >
                   <q-item-section avatar>
                      <q-icon name="sort" size="sm" />
@@ -45,22 +45,6 @@
                   <q-item-section>
                      <q-item-label class="text-h6 text-weight-light">{{
                         $t('overview')
-                     }}</q-item-label>
-                  </q-item-section>
-               </q-item>
-
-               <q-item
-                  active-class="bg-secondary text-primary"
-                  clickable
-                  v-ripple
-                  :to="{ name: 'book-settings', params: { id: book.id } }"
-               >
-                  <q-item-section avatar>
-                     <q-icon name="settings" size="sm" />
-                  </q-item-section>
-                  <q-item-section>
-                     <q-item-label class="text-h6 text-weight-light">{{
-                        $t('settings')
                      }}</q-item-label>
                   </q-item-section>
                </q-item>
@@ -110,7 +94,7 @@
                            clickable
                            v-ripple
                            :to="{
-                              name: 'book-page',
+                              name: 'public-book-page',
                               params: { id: book.id, pageId: page.id },
                            }"
                         >
@@ -151,13 +135,16 @@
       </q-drawer>
 
       <q-page-container>
-         <router-view />
+         <template v-if="loading"></template>
+         <template v-else>
+            <router-view />
+         </template>
       </q-page-container>
    </q-layout>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import Core from 'src/mixins/Core'
 
@@ -168,43 +155,42 @@ export default {
       return {
          loading: true,
          openDrawer: true,
+         book: {},
+         chapters: [],
+         pages: [],
       }
    },
 
    computed: {
-      ...mapGetters([
-         'store/all',
-         'store/byId',
-         'store/chaptersByBook',
-         'store/pagesByBook',
-      ]),
-
-      book() {
-         return this['store/byId']({ collection: 'books', id: this.$route.params.id })
-      },
-
-      chapters() {
-         const chapters = this['store/all']({ collection: 'chapters' })
-         return chapters.filter((f) => f.bookId === this.$route.params.id)
-      },
-
-      pages() {
-         return this['store/pagesByBook'](this.$route.params.id)
-      },
+      ...mapGetters(['published/book']),
    },
 
    methods: {
-      init() {
-         const interval = setInterval(() => {
-            if (
-               this['store/byId']({ collection: 'books', id: this.$route.params.id }) &&
-               this['store/chaptersByBook'](this.$route.params.id) &&
-               this['store/pagesByBook'](this.$route.params.id)
-            ) {
+      ...mapActions(['published/getBook']),
+
+      async init() {
+         try {
+            const result = await this['published/getBook'](this.$route.params.id)
+            if (!result) {
                this.loading = false
-               clearInterval(interval)
+               this.$router.push({ name: 'anonymous' })
             }
-         }, 500)
+
+            let book
+            const interval = setInterval(() => {
+               book = this['published/book']
+               if (book !== undefined) {
+                  this.book = book
+                  this.chapters = book.chapters
+                  this.pages = book.pages
+                  clearInterval(interval)
+               }
+            }, 500)
+         } catch (error) {
+            console.error('PublicBookLayout', error)
+         } finally {
+            this.loading = false
+         }
       },
 
       chapterPages(chapter) {
@@ -219,17 +205,17 @@ export default {
    mixins: [Core],
 
    watch: {
-      $route: function() {
-         this.init()
+      $route: async function() {
+         await this.init()
       },
    },
 
    components: {
-      PageHeader: () => import('components/PageHeader.vue'),
+      PublicPageHeader: () => import('components/PublicPageHeader.vue'),
    },
 
-   mounted() {
-      this.init()
+   async mounted() {
+      await this.init()
    },
 }
 </script>

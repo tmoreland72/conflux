@@ -129,7 +129,6 @@ export default {
             result = await this.$axios.get(`/users/token/${id}`, {
                headers: { Authorization: `Bearer ${accessToken}` },
             })
-            console.log('get custom token', result)
             if (!result.data.success) {
                Notify.create({ color: 'negative', message: this.$t(result.data.message) })
                return false
@@ -137,7 +136,6 @@ export default {
 
             const fbToken = result.data.data
             result = await fireauth.signInWithCustomToken(fbToken)
-            console.log('fireauth', result)
 
             const interval = setInterval(() => {
                if (storage.has('profile')) {

@@ -22,9 +22,7 @@ const fireauth = firebase.auth()
 const firestore = firebase.firestore()
 firebase.analytics()
 firebase.performance()
-console.log(process.env.ENV)
 if (process.env.ENV === 'local-test') {
-   console.log('using test')
    firestore.useEmulator('localhost', 8070)
 }
 

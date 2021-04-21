@@ -100,15 +100,12 @@ const actions = {
       return new Promise(async (res, rej) => {
          try {
             const profile = storage.getItem('profile')
-            console.log('bind', collection, profile)
             let foo = await firestore.collection('books').get()
-            console.log('foo', foo.docs[0].data())
             let ref = await firestore
                .collection(collection)
                .where('collaborators', 'array-contains', profile.id)
                .onSnapshot(async (snapshot) => {
                   snapshot.docChanges().forEach((change) => {
-                     console.log('bind', collection, change)
                      if (change.type === 'added') {
                         if (!change.doc.metadata.hasPendingWrites) {
                            commit('setItem', {

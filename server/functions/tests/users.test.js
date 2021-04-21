@@ -22,7 +22,6 @@ describe("Users", () => {
          .expect(201)
          .end(function(err, res) {
             if(err) throw err
-            console.log(res.body)
             done()
          })
    })
@@ -31,7 +30,6 @@ describe("Users", () => {
       let result = await supertest
          .get("/"+TENANTID+"/users")
          .send()
-      console.log("result", result.text)
       expect(typeof result.text).toBe("string")
    })
 

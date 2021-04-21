@@ -13,8 +13,6 @@
          dense
          outlined
          v-model="searchString"
-         @blur="onSearchBlur()"
-         @focus="onSearchFocus()"
       >
          <template v-slot:prepend>
             <q-spinner :color="!!loading ? 'primary' : 'transparent'" />
@@ -64,14 +62,6 @@ export default {
    },
 
    methods: {
-      onSearchBlur() {
-         console.log('blur')
-      },
-
-      onSearchFocus() {
-         console.log('focus')
-      },
-
       async search() {
          try {
             this.loading = true
@@ -91,7 +81,6 @@ export default {
       },
 
       updatePosition() {
-         console.log('onShow')
          this.$refs.searchResultsMenu.updatePosition()
       },
    },
@@ -114,16 +103,6 @@ export default {
             }, 100)
          }
       },
-      // loading: function(after, before) {
-      //    console.log(after, before)
-      //    if (after === false && before) {
-      //       this.$refs.searchResultsMenu.focus()
-      //       this.$refs.searchResultsMenu.updatePosition()
-      //    }
-      // },
-      // searchResults: function(value) {
-      //    this.$refs.searchResultsMenu.updatePosition()
-      // },
    },
 
    components: {

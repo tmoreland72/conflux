@@ -27,7 +27,7 @@
       "deploy:client:prod": "cd client && yarn deploy:prod && cd ..",
       "deploy:server:dev": "cd server/functions && yarn deploy:dev && cd ../../",
       "deploy:server:prod": "cd server/functions && yarn deploy:prod && cd ../../",
-      "deploy:dev": "npm-run-all version:patch deploy:server:dev deploy:client:dev",
+      "deploy:dev": "npm-run-all deploy:server:dev deploy:client:dev",
       "deploy:prod": "npm-run-all deploy:server:prod deploy:client:prod"
    }
 }

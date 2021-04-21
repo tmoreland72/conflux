@@ -16,7 +16,7 @@
       "firebase:dev": "firebase deploy -P dev",
       "serve:local": "npm-run-all use:dev copy-service-account:dev copy-env:local start:local",
       "serve:dev": "npm-run-all use:dev copy-service-account:dev copy-env:dev start:dev",
-      "deploy:dev": "npm-run-all use:dev firebase:dev",
+      "deploy:dev": "npm-run-all use:dev copy-service-account:dev copy-env:dev firebase:dev",
       "shell:local": "npm-run-all use:dev copy-service-account:dev copy-env:dev run:shell",
       "run:shell": "npm run shell"
    },

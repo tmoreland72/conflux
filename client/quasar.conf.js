@@ -44,14 +44,7 @@ module.exports = function(/* ctx */) {
 
          importStrategy: 'auto',
 
-         plugins: [
-            'Dialog',
-            'LocalStorage',
-            'Meta',
-            'SessionStorage',
-            'Notify',
-            'Loading',
-         ],
+         plugins: ['Dialog', 'LocalStorage', 'SessionStorage', 'Notify', 'Loading'],
       },
 
       animations: [],

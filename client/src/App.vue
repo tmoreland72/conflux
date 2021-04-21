@@ -59,46 +59,5 @@ export default {
       await this.initData()
       // this.initializing()
    },
-
-   meta() {
-      const host = window.location.origin
-      return {
-         title: 'Conflux',
-         meta: {
-            description: {
-               name: 'description',
-               content: 'Document Everything from Anywhere',
-            },
-            ogTitle: {
-               name: 'og:title',
-               content: 'Conflux',
-            },
-            ogType: { name: 'og:type', content: 'website' },
-            ogUrl: { name: 'og:url', content: window.location.href },
-            ogDescription: {
-               name: 'og:description',
-               content: 'Document Everything from Anywhere',
-            },
-            ogImage: {
-               name: 'og:image',
-               content: `${host}/images/accent-on-primary.png`,
-            },
-            twitterTitle: {
-               name: 'twitter:title',
-               content: 'Conflux',
-            },
-            twitterCard: { name: 'twitter:card', content: 'summary_large_image' },
-            twitterUrl: { name: 'twitter:url', content: window.location.href },
-            twitterDescription: {
-               name: 'twitter:description',
-               content: 'Document Everything from Anywhere',
-            },
-            twitterImage: {
-               name: 'twitter:image',
-               content: `${host}/images/accent-on-primary.png`,
-            },
-         },
-      }
-   },
 }
 </script>

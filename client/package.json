@@ -19,6 +19,8 @@
       "deploy:dev": "npm-run-all use:dev build:dev:spa firebase:dev"
    },
    "dependencies": {
+      "@bugsnag/js": "^7.9.2",
+      "@bugsnag/plugin-vue": "^7.9.2",
       "@liradb2000/markdown-it-mermaid": "^0.4.2",
       "@quasar/extras": "^1.0.0",
       "axios": "^0.21.1",

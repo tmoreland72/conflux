@@ -3,7 +3,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 module.exports = function(/* ctx */) {
    return {
       supportTS: false,
-      boot: ['i18n', 'axios', 'firebase', 'loading', 'notify', 'storage'],
+      boot: ['i18n', 'axios', 'bugsnag', 'firebase', 'loading', 'notify', 'storage'],
 
       css: ['app.sass'],
 

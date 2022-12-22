@@ -37,7 +37,7 @@
       "express": "^4.17.1",
       "firebase-admin": "^9.4.1",
       "firebase-functions": "^3.11.0",
-      "jsonwebtoken": "^8.5.1",
+      "jsonwebtoken": "^9.0.0",
       "jwt-decode": "^3.1.2",
       "morgan": "^1.10.0",
       "uid": "^2.0.0"
